@@ -19,7 +19,28 @@ describe your own and Claude will extend a preset.
 
 ## Install
 
-The skill is the repository, so installing it is a clone into your skills directory.
+### With the `skills` CLI (recommended)
+
+```bash
+npx skills add github.com/dworzycp/ai-adventure-book-skill
+```
+
+This installs into the current project by default. Add `-g` to install it globally, for every
+project on the machine:
+
+```bash
+npx skills add github.com/dworzycp/ai-adventure-book-skill -g
+```
+
+To update it later:
+
+```bash
+npx skills update
+```
+
+### By hand
+
+The repository *is* the skill, so a plain clone into a skills directory works too.
 
 **Personal skill (available in every project):**
 
@@ -33,20 +54,22 @@ git clone https://github.com/dworzycp/ai-adventure-book-skill.git ~/.claude/skil
 git clone https://github.com/dworzycp/ai-adventure-book-skill.git .claude/skills/adventure-book
 ```
 
-The directory name matters: it must be `adventure-book`, matching the `name` in `SKILL.md`.
+The directory name matters here: it must be `adventure-book`, matching the `name` in `SKILL.md`.
+Update a hand-installed copy with `git -C ~/.claude/skills/adventure-book pull`.
 
-Restart Claude Code (or start a new session) and confirm it loaded:
+### Check it loaded
+
+Restart Claude Code (or start a new session) and type:
 
 ```
 /adventure-book
 ```
 
-To update later: `git -C ~/.claude/skills/adventure-book pull`.
-
 ### Requirements
 
 - [Claude Code](https://claude.com/claude-code)
 - Python 3.9+ for the build script — standard library only, nothing to `pip install`
+- Node.js if you install with `npx` (the `skills` CLI); not needed for the manual route
 
 ## Use it
 
