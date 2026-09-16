@@ -3,7 +3,33 @@
   "evals": [
     {
       "id": 0,
-      "prompt": "We're doing a retro on the checkout outage and I want something more engaging than reading the postmortem out loud. Take incident-postmortem.md and make it an interactive space-mission adventure page the team can click through, with the real facts (timeline, root cause, action items) still available behind the story. Output: outage-mission.html",
+      "prompt": "Turn /Users/pawel.dworzycki/dev/backstage/AGENTS.md into an interactive adventure book in HTML. Theme: a medieval knight on a journey through the realm. I want fancy graphics and pop-outs that explain what each part of the story actually means in the real doc. Save it as agents-quest.html",
+      "expected_output": "A single self-contained HTML file that walks through AGENTS.md as a knight's quest: multiple navigable stages with illustrated SVG scenes, clickable pop-outs whose explanations quote the real commands/rules from AGENTS.md, and coverage of the major sections (setup, commands, architecture, testing, code style, rules).",
+      "files": [],
+      "expectations": [
+        "A single .html output file exists in the outputs directory",
+        "Works offline: no external scripts, stylesheets, fonts or images are loaded",
+        "Contains substantial inline SVG illustration (several scenes, dozens of shapes), not just icons",
+        "Has click-to-reveal pop-outs (dialog/modal/details/tooltip) that hide explanatory text until activated",
+        "Page renders in headless Chrome with real content (JS ran, >300 words of rendered text)",
+        "Has at least 5 distinct navigable stages/chapters (not one long scroll)",
+        "Pop-out text names the real thing behind the allegory (e.g. 'VPN', 'PostgreSQL', a command) in plain language, not more story",
+        "The narrative reads as a themed story in second person with a consistent allegory, not a summary with costume words",
+        "The stages follow the source document's order so a reader could act on it afterwards",
+        "Concise: each stage's narrative is roughly 60-120 words, two short paragraphs at most, with no padded mood-setting or sentences that restate the previous one in themed words",
+        "Has a clear beginning, middle and end with a stated objective: the opening names what the hero must be able to do by the end, and the ending pays that objective off rather than just stopping",
+        "Stages are causally connected — each follows from the last ('therefore'/'but', not 'and then') and the middle escalates, so it reads as one journey rather than a list of themed vignettes",
+        "Legible without clicking: the sentence around each marked phrase carries the real meaning, so a reader who never opens a pop-out still understands what happens and why",
+        "Something goes wrong before the end (a real mistake, footgun or failure taken from the source), and the story shows the fix",
+        "Quotes the real setup and dev commands verbatim (yarn dev, bnw_login, docker compose up -d, yarn tsc)",
+        "Explains the plugin naming conventions with the real suffixes (@internal/, -backend, -backend-module-, -common)",
+        "Covers the major AGENTS.md sections: setup, commands, architecture, testing, code style, rules (at least 5 of 6 signal terms)",
+        "Carries the testing conventions: BDD/tests-first and no 'should' in test names"
+      ]
+    },
+    {
+      "id": 1,
+      "prompt": "We're doing a retro on the checkout outage and I want something more engaging than reading the postmortem out loud. Take /Users/pawel.dworzycki/.claude/skills/adventure-book/evals/files/incident-postmortem.md and make it an interactive space-mission adventure page the team can click through, with the real facts (timeline, root cause, action items) still available behind the story. Output: outage-mission.html",
       "expected_output": "A single self-contained HTML file in a space theme that retells the incident as a mission, stage by stage in timeline order, with pop-outs or reveals that surface the exact facts: the NaN timeout root cause, the 47 minute duration, the six action items with owners, and the lessons.",
       "files": [
         "evals/files/incident-postmortem.md"
@@ -18,6 +44,11 @@
         "Pop-out text names the real thing behind the allegory (e.g. 'VPN', 'PostgreSQL', a command) in plain language, not more story",
         "The narrative reads as a themed story in second person with a consistent allegory, not a summary with costume words",
         "The stages follow the source document's order so a reader could act on it afterwards",
+        "Concise: each stage's narrative is roughly 60-120 words, two short paragraphs at most, with no padded mood-setting or sentences that restate the previous one in themed words",
+        "Has a clear beginning, middle and end with a stated objective: the opening names what the hero must be able to do by the end, and the ending pays that objective off rather than just stopping",
+        "Stages are causally connected — each follows from the last ('therefore'/'but', not 'and then') and the middle escalates, so it reads as one journey rather than a list of themed vignettes",
+        "Legible without clicking: the sentence around each marked phrase carries the real meaning, so a reader who never opens a pop-out still understands what happens and why",
+        "Something goes wrong before the end (a real mistake, footgun or failure taken from the source), and the story shows the fix",
         "States the real root cause: Number() on '8000ms' giving NaN for PAYMENT_PROVIDER_TIMEOUT_MS",
         "Gives the real impact figures: 47 minutes, ~6,400 customers, 1,100 abandoned quotes",
         "Lists all six action items with their substance (readIntEnv, audit env vars, startup validation, health endpoint, latency canary, runbook)",
@@ -25,8 +56,8 @@
       ]
     },
     {
-      "id": 1,
-      "prompt": "my junior devs find our git guide boring. can you turn git-basics.md into a pirate-themed interactive adventure book in html? one file i can drop in slack, with nice visuals, and the actual git commands should still be findable when you click on stuff. call it git-voyage.html",
+      "id": 2,
+      "prompt": "my junior devs find our git guide boring. can you turn /Users/pawel.dworzycki/.claude/skills/adventure-book/evals/files/git-basics.md into a pirate-themed interactive adventure book in html? one file i can drop in slack, with nice visuals, and the actual git commands should still be findable when you click on stuff. call it git-voyage.html",
       "expected_output": "A single self-contained pirate-themed HTML adventure that covers the guide's sections (mental model, starting work, saving, sharing, staying current, undoing, things not to do) and makes every git command from the guide reachable verbatim through pop-outs or reveals.",
       "files": [
         "evals/files/git-basics.md"
@@ -41,6 +72,11 @@
         "Pop-out text names the real thing behind the allegory (e.g. 'VPN', 'PostgreSQL', a command) in plain language, not more story",
         "The narrative reads as a themed story in second person with a consistent allegory, not a summary with costume words",
         "The stages follow the source document's order so a reader could act on it afterwards",
+        "Concise: each stage's narrative is roughly 60-120 words, two short paragraphs at most, with no padded mood-setting or sentences that restate the previous one in themed words",
+        "Has a clear beginning, middle and end with a stated objective: the opening names what the hero must be able to do by the end, and the ending pays that objective off rather than just stopping",
+        "Stages are causally connected — each follows from the last ('therefore'/'but', not 'and then') and the middle escalates, so it reads as one journey rather than a list of themed vignettes",
+        "Legible without clicking: the sentence around each marked phrase carries the real meaning, so a reader who never opens a pop-out still understands what happens and why",
+        "Something goes wrong before the end (a real mistake, footgun or failure taken from the source), and the story shows the fix",
         "Every core command from the guide is present verbatim (switch -c, add -p, rebase origin/main, --force-with-lease, reflog, restore --staged, gh pr create --draft, rebase --abort)",
         "Covers the guide's sections: mental model (staging area), branching, committing (Conventional Commits), sharing (draft PR), rebasing, undoing, things not to do (secrets)",
         "Preserves the safety rules: never plain --force on shared branches, do not commit secrets, do not commit to main"

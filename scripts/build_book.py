@@ -452,6 +452,7 @@ def build(content_path: Path, out_path: Path, source_override: Path | None, quie
     stages = [resolve_stage(s, base) for s in book["stages"]]
     seen_ids: set[str] = set()
     total_popouts = 0
+    stage_words: list[int] = []
     for n, stage in enumerate(stages, start=1):
         if not stage.get("title"):
             raise SystemExit(f"stage {n} has no title")
@@ -465,9 +466,14 @@ def build(content_path: Path, out_path: Path, source_override: Path | None, quie
         stage["narrative"] = markdown(stage.get("narrative", ""), used_ids)
         if stage.get("note"):
             stage["note"] = markdown(load_field(stage["note"], base), used_ids)
-        min_words = int(book.get("minStageWords", 60))
-        if len(re.sub(r"<[^>]+>", "", stage["narrative"]).split()) < min_words:
-            warn(f"stage '{stage['title']}' narrative is under {min_words} words; readers expect a scene, not a caption")
+        min_words = int(book.get("minStageWords", 45))
+        max_words = int(book.get("maxStageWords", 120))
+        words = len(re.sub(r"<[^>]+>", "", stage["narrative"]).split())
+        stage_words.append(words)
+        if words < min_words:
+            warn(f"stage '{stage['title']}' narrative is {words} words, under {min_words}; readers expect a scene, not a caption")
+        elif words > max_words:
+            warn(f"stage '{stage['title']}' narrative is {words} words, over {max_words}; cut it back — long sections belong in pop-outs and the original scroll, not the prose")
 
         defined = {p["id"] for p in stage.get("popouts", [])} | {p["id"] for p in book.get("popouts", [])}
         for pid in sorted(used_ids - defined):
@@ -476,9 +482,14 @@ def build(content_path: Path, out_path: Path, source_override: Path | None, quie
             warn(f"stage '{stage['title']}' defines pop-out '{pid}' that the narrative never marks")
         if not used_ids:
             warn(f"stage '{stage['title']}' has no pop-outs; every stage should let the reader look behind the tale")
+        elif len(used_ids) > int(book.get("maxStagePopouts", 5)):
+            warn(f"stage '{stage['title']}' marks {len(used_ids)} pop-outs; 2 to 4 keeps the tale readable, more turns it into a glossary")
 
         for p in stage.get("popouts", []):
             total_popouts += 1
+            exp_words = len(re.sub(r"`[^`]*`", "", p.get("explanation", "")).split())
+            if exp_words > int(book.get("maxPopoutWords", 90)):
+                warn(f"pop-out '{p['id']}' explanation is {exp_words} words (excluding code); say what it is, why it matters here, and quote the source — nothing more")
             p["explanation"] = markdown(p.get("explanation", ""))
             p.setdefault("term", TERMS.get(p["id"]))
             if not p.get("title"):
@@ -548,6 +559,8 @@ def build(content_path: Path, out_path: Path, source_override: Path | None, quie
     if not quiet:
         print(f"built {out_path}  ({out_path.stat().st_size / 1024:.0f} KB)")
         print(f"  theme: {theme.get('name')}   stages: {len(stages)}   pop-outs: {total_popouts}   hand-drawn scenes: {custom_scenes}/{len(stages) + 2}")
+        if stage_words:
+            print(f"  narrative: {sum(stage_words)} words total, {sum(stage_words) // len(stage_words)} per stage on average (longest {max(stage_words)})")
         if source:
             print(f"  source: {source.path}  ({len(source.headings)} headings)")
         if WARNINGS:

@@ -14,6 +14,11 @@ behind the allegory (the actual command, rule, decision or number from the sourc
 Output is **one `.html` file** that works offline: no build step for the reader, no network
 requests, no dependencies.
 
+The book is written short and shaped as a story — a stated objective, stages that follow from
+one another, a mistake before the end, and a payoff — because a wall of themed prose teaches
+nothing. Narrative runs 60–120 words per stage; the detail lives in the pop-outs and the
+original document, one click away.
+
 Built-in themes: `knight`, `space`, `pirate`, `noir`, `expedition`, `deepsea`, `storybook` — or
 describe your own and Claude will extend a preset.
 
@@ -96,6 +101,7 @@ anywhere, **glowing words** open pop-outs, the **codex** button lists every pop-
 | `assets/template.html` | The engine — navigation, pop-out drawer, codex, map, parallax, mobile and reduced-motion support |
 | `assets/themes.json` | Theme presets (colors, fonts, vocabulary) |
 | `scripts/build_book.py` | Assembles `book.json` + stage Markdown + SVG scenes into the final HTML |
+| `references/story.md` | How the book is structured as a story: objective, spine, escalation, the page turn |
 | `references/themes.md` | Voice, motifs and stage-naming patterns per theme |
 | `references/scenes.md` | How to draw the SVG scenes so they work with the parallax and palette |
 | `evals/` | Eval suite for [skill-creator](https://github.com/anthropics/skills), plus sample source docs |
@@ -141,9 +147,13 @@ enter who have not passed through [[the Veil|vpn]]...
 
 ## popout: vpn
 title: VPN
+source: Local Development Setup
 You have to be on the company VPN before anything else works — the internal package
 registry is only reachable from inside the network.
 ```
+
+A pop-out's `source:` must sit in its header lines, directly under `## popout: id`, not after
+the explanation.
 
 Then build:
 
@@ -152,7 +162,9 @@ python3 scripts/build_book.py --content work/book.json --out quest.html
 ```
 
 The builder warns about pop-out ids with no matching block, `source:` headings it can't find in
-the document, stages that are too thin, and source sections nothing in the book refers to.
+the document, stages that are too thin *or too long*, over-long pop-out explanations, stages
+that mark too many pop-outs, and source sections nothing in the book refers to. It also reports
+the total narrative word count, so bloat is visible in the build output.
 
 ## License
 

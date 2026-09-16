@@ -12,8 +12,15 @@ source document. The output is one `.html` file that works offline with no depen
 
 The engine (navigation, pop-out drawer, codex, progress map, parallax, keyboard, mobile layout,
 reduced-motion) is already built in `assets/template.html`. `scripts/build_book.py` assembles
-your content into it. Your job is the creative and faithful part: the allegory, the prose, the
-pop-outs, and the scene art.
+your content into it. Your job is the creative and faithful part: the story, the allegory, the
+prose, the pop-outs, and the scene art.
+
+Three references carry the craft: `references/story.md` (structure — read it every time),
+`references/themes.md` (voice and allegory per theme), and `references/scenes.md` (drawing).
+
+The two failures to design against are **too many words** and **no story underneath them**: a
+book that renames the document's sections in costume, stage after stage, and buries the real
+facts in atmosphere. Fewer words, one clear journey.
 
 ## Workflow
 
@@ -27,16 +34,29 @@ pop-outs, and the scene art.
    counterpart (VPN = the Veil, database = the great tame beast, CI pipeline = the proving
    grounds). Keep every mapping stable for the whole book. Readers learn the allegory once; if
    the Veil becomes the Mist in chapter four, the book stops teaching.
-3. **Plan the stages.** Aim for 5 to 9. Each stage is one leg of the journey and usually one
-   source section; merge sections that are too thin to carry a scene, split ones that would
-   need more than about 250 words of narrative. Order the stages as the reader would need the
-   knowledge, which is usually the document's order. Give each a title in the theme's voice and
-   a `source:` heading so the reader can unroll the original section from inside the stage.
-4. **Write the content files** in a working folder (`book.json`, `stages/NN-name.md`,
+3. **Shape the story.** Read `references/story.md` and fill in its story spine for this book
+   before planning anything: the objective the hero must reach, the "because of that" chain that
+   gets them there, the mistake they make near the end, and the image the book closes on. A
+   document is a list of sections; a book is a chain of consequences, and turning one into the
+   other is the whole job. Do not skip this because the source looks like a simple list — those
+   are the ones that come out as slideshows.
+4. **Plan the stages.** Aim for 5 to 9, one beat each, mapped onto the spine (one stage of
+   arrival, three to six of escalating middle, one where it goes wrong, one of payoff). Each
+   stage is usually one source section: merge sections too thin to carry a beat, and split ones
+   that would need more than about 120 words of narrative. Order the stages as the reader would
+   need the knowledge, which is usually the document's order. Give each a title in the theme's
+   voice and a `source:` heading so the reader can unroll the original section from inside the
+   stage.
+5. **Write the content files** in a working folder (`book.json`, `stages/NN-name.md`,
    `scenes/*.svg`). Formats are below.
-5. **Build and read the warnings.** Fix every "no pop-out with id", "heading not found", and
+6. **Cut, then run the checklist.** Reread each stage against "Writing the tale" and take out
+   roughly a third of the words; first drafts are almost always twice as long as they need to
+   be, and every sentence you delete makes the marked words easier to see. Then walk the
+   checklist at the end of `references/story.md` and fix what fails. Both of these happen before
+   you build; neither is optional polish.
+7. **Build and read the warnings.** Fix every "no pop-out with id", "heading not found", and
    coverage warning. Rebuild until the report is clean or every remaining warning is deliberate.
-6. **Verify and hand over.** Open the file (`open <file>.html` on macOS) or at least screenshot
+8. **Verify and hand over.** Open the file (`open <file>.html` on macOS) or at least screenshot
    it with headless Chrome if available. Tell the user where the file is, how to move through it
    (arrow keys, click the map, click the glowing words), and which theme you used.
 
@@ -83,7 +103,9 @@ Rules the build script enforces or warns about:
   a `## popout: id` block in the same stage (or a book-level `popouts` array in `book.json`).
 - `source:` in the frontmatter names a heading in the source document. The script extracts
   that section verbatim and shows it behind the "original scroll" button. A pop-out block may
-  also carry `source: <heading>` to attach the relevant section under its explanation.
+  also carry `source: <heading>` to attach the relevant section under its explanation — but it
+  must sit in the pop-out's header lines, directly under `## popout: id` alongside `title:`, not
+  after the explanation. Misplaced, it is silently read as prose and the section goes uncovered.
 - Theme is a preset name (`knight`, `space`, `pirate`, `noir`, `expedition`, `deepsea`) or an
   object `{ "extends": "knight", "colors": {...}, "fonts": {...}, "vocabulary": {...} }`. Presets
   live in `assets/themes.json`; copy one as the starting point for an invented theme.
@@ -96,18 +118,42 @@ python3 <skill-dir>/scripts/build_book.py --content work/book.json --out <name>.
 
 ## Writing the tale
 
-**Second person, present tense, one scene per stage.** "You" are the hero, arriving somewhere,
-meeting someone, being handed something. A stage that reads like a summary with costume words
-sprinkled on is the most common failure; the reader should be able to picture the place.
+**Second person, present tense, one scene and one beat per stage.** "You" are the hero. A stage
+is not a description of a place; it is something happening in one. You arrive, you meet a
+person or a problem, you do one thing, and you leave changed or better equipped. If a stage
+boils down to "you are somewhere and it looks atmospheric", it has no beat yet: find one in the
+source section — the thing the reader must do, the mistake they must not make, the decision
+that was taken — and build the scene around that.
 
-**120 to 250 words of narrative per stage.** Shorter feels like a caption; longer buries the
-pop-outs. If the source section is long, let the pop-outs and the original scroll carry the
-detail while the narrative carries the shape and the order of events.
+**Hold the shape you planned.** `references/story.md` is the authority on structure: the
+objective stated up front, stages joined by "therefore" and "but" rather than "and then", the
+middle escalating, a real mistake near the end, a refrain or carried object, and every stage's
+last sentence pulling toward the next. Seven unrelated vignettes in matching costumes is a
+slideshow, not a book, and it is the failure this skill falls into by default.
 
-**Mark 2 to 5 pop-outs per stage, on the words where the allegory hides something real.** The
-ideal marked phrase is one the reader would otherwise nod past: "a great tame beast waits in
-its box" tells them nothing until they click and learn it is PostgreSQL in Docker. Do not mark
-decoration. Do not leave a stage with zero pop-outs; that stage teaches nothing.
+**60 to 120 words of narrative per stage, and that is a budget rather than a target.** Two
+short paragraphs. The reader came for the document, not the prose; past about 120 words they
+start skimming, and a skimmed stage teaches nothing. Long source sections do not earn more
+words — they earn more pop-outs and the original scroll, which is exactly what those are for.
+
+**Cut every sentence that is only mood.** Allow yourself one atmospheric image per stage; make
+the rest of the sentences carry a fact, a movement, or a consequence. The usual things to
+delete: a second adjective, a sentence that restates the previous one in themed words, a clause
+about how the light falls, and any preamble before the hero actually does something.
+
+**The tale must be legible without clicking.** Assume a reader who never opens a single
+pop-out: they should still be able to say what happened and roughly what it means. The marked
+phrase names the thing in theme; the sentence around it carries the real meaning.
+
+> "The elder speaks the word of binding over your blade." — teaches nothing; the reader cannot
+> tell whether this is a config file, a login, or scenery.
+> "Nothing you forge will hold until the elder writes your name in [[the ledger|env-file]]." —
+> same costume, but the reader now knows there is a file that must list them before anything
+> works. The pop-out then supplies the name of the file and the exact line.
+
+**Mark 2 to 4 pop-outs per stage, on the words where the allegory hides something real.** Mark
+the phrase a reader would otherwise nod past, never decoration. A stage with zero pop-outs
+teaches nothing; a stage with seven is a glossary with a costume.
 
 **Make the allegory illuminate, not merely rename.** Pick counterparts that share a property
 with the real thing. A backend module that "swears fealty to a greater plugin" teaches the
@@ -116,18 +162,20 @@ has structure (a table of naming conventions, a numbered setup sequence, a hiera
 that structure in the scene: banners of different shapes, gates passed in order, a hall of
 vassals.
 
-**Let the ending pay off.** The recap lists what the hero now knows, one line per key fact,
-in plain words with pop-out links where useful. The reader should finish able to do the thing
-the document is for.
+**Let the ending pay off the through-line.** The recap is the hero's new competence in plain
+words: one line per key fact, under a dozen words each, with pop-out links where useful. The
+reader should finish able to do the thing the document is for.
 
 ## Pop-outs: the contract with the reader
 
 The tale may embellish; the pop-outs may not. A pop-out's `title` is the real name of the
-thing. Its explanation is 2 to 5 sentences of plain language: what it is, why it matters here,
+thing, and its first sentence states plainly what it is — no story voice, no throat-clearing,
+never a second helping of allegory. Then 1 to 3 more sentences at most: why it matters here,
 and the exact command, path, value, or rule from the source when there is one, in backticks or
-a fenced block. Every fact in a pop-out must come from the source document or be uncontroversial
-general knowledge; if the source does not say why, do not invent a why. Attach `source:` to the
-pop-out when the original wording matters (commands, rules, tables).
+a fenced block. Quote commands verbatim; never paraphrase one. Every fact must come from the
+source document or be uncontroversial general knowledge; if the source does not say why, do not
+invent a why. Attach `source:` to the pop-out when the original wording matters (commands,
+rules, tables) rather than retyping it.
 
 ## Scenes
 

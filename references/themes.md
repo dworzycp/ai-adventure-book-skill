@@ -6,6 +6,11 @@ journey passes through, and the allegory patterns that tend to fit technical mat
 only the section for the theme in play, plus "Inventing a theme" if the user asked for one that
 is not listed.
 
+These voices are flavour, not a licence to write more. Structure and length are governed by
+`references/story.md` and the word budget in `SKILL.md`; where a voice note here suggests longer
+or more descriptive sentences, it means *within* a 60-to-120-word stage, not instead of it. A
+theme is a costume for the story, never a substitute for one.
+
 ## Contents
 
 - [knight](#knight) — medieval quest
