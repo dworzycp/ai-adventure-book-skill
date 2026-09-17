@@ -7,17 +7,20 @@ Turn any Markdown document into a self-contained interactive HTML **adventure bo
 <sup>The cover of a book built from this very README, in the `knight` theme.</sup>
 
 A README, onboarding guide, AGENTS.md, ADR, spec, runbook, tutorial, postmortem — or a plain
-old story — becomes a themed journey the reader travels stage by stage: illustrated SVG scenes,
-a progress map, keyboard navigation, and glowing words that pop out to reveal the *real* thing
-behind the allegory (the actual command, rule, decision or number from the source document).
+old story — becomes a themed journey the reader travels stage by stage. Every page is an open
+pop-up book spread: storybook paper-cut art standing on the left leaf, the words printed on the
+right, a progress map, keyboard navigation, and glowing words that pop out to reveal the *real*
+thing behind the allegory (the actual command, rule, decision or number from the source document).
 
 Output is **one `.html` file** that works offline: no build step for the reader, no network
 requests, no dependencies.
 
-The book is written short and shaped as a story — a stated objective, stages that follow from
-one another, a mistake before the end, and a payoff — because a wall of themed prose teaches
-nothing. Narrative runs 60–120 words per stage; the detail lives in the pop-outs and the
-original document, one click away.
+The book is written short and shaped as a story — one protagonist who owns the problem, the
+document's argument as the plot, stages that follow from one another, the document's own
+warned-about mistake before the end, and a payoff the hero earns — because a wall of themed
+prose teaches nothing. Narrative runs 60–120 words per stage; the detail lives in the pop-outs
+and the original document, one click away. Claude asks for the source document and the theme
+if you don't give them.
 
 Built-in themes: `knight`, `space`, `pirate`, `noir`, `expedition`, `deepsea`, `storybook` — or
 describe your own and Claude will extend a preset.
@@ -101,9 +104,10 @@ anywhere, **glowing words** open pop-outs, the **codex** button lists every pop-
 | `assets/template.html` | The engine — navigation, pop-out drawer, codex, map, parallax, mobile and reduced-motion support |
 | `assets/themes.json` | Theme presets (colors, fonts, vocabulary) |
 | `scripts/build_book.py` | Assembles `book.json` + stage Markdown + SVG scenes into the final HTML |
-| `references/story.md` | How the book is structured as a story: objective, spine, escalation, the page turn |
+| `scripts/scene_engine.py` | Renders the scenes: layered paper-cut flats with card edges and shadows, storybook characters, subtle motion |
+| `references/story.md` | How a document becomes a short story: its one argument, a protagonist who owns the problem, story shape by document type, the fact ledger, the spine |
 | `references/themes.md` | Voice, motifs and stage-naming patterns per theme |
-| `references/scenes.md` | How to draw the SVG scenes so they work with the parallax and palette |
+| `references/scenes.md` | The art direction and the scene engine's manual |
 | `evals/` | Eval suite for [skill-creator](https://github.com/anthropics/skills), plus sample source docs |
 
 ## Building a book by hand
@@ -114,8 +118,12 @@ You don't need Claude to run the builder. Create a working folder:
 work/
   book.json
   stages/01-gates.md
+  draw.py            # optional: renders scenes/*.svg with scripts/scene_engine.py
   scenes/01-gates.svg
 ```
+
+Scenes are plain inline SVG, so you can hand-write them or generate them; `references/scenes.md`
+documents the engine. A stage without a `scene:` gets a generated backdrop in the same style.
 
 `book.json` (paths relative to the JSON file):
 

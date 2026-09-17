@@ -41,31 +41,59 @@ button:focus-visible, a:focus-visible, [tabindex]:focus-visible { outline: 3px s
 /* ---------- pages ---------- */
 .pages { position: absolute; inset: 0; }
 .page {
-  position: absolute; inset: 0; opacity: 0; pointer-events: none;
-  transition: opacity .7s ease;
+  position: absolute; inset: 0; opacity: 0; visibility: hidden; pointer-events: none;
+  transition: opacity .6s ease, visibility 0s linear .6s;
 }
-.page.active { opacity: 1; pointer-events: auto; }
-.scene { position: absolute; inset: 0; overflow: hidden; }
-.scene svg { width: 100%; height: 100%; display: block; }
-.scene [data-depth] { transition: transform .25s ease-out; will-change: transform; }
-.vignette { position: absolute; inset: 0; pointer-events: none;
-  background: radial-gradient(90% 80% at 50% 45%, transparent 55%, rgba(0,0,0,.55) 100%); }
+.page.active { opacity: 1; visibility: visible; pointer-events: auto; transition: opacity .6s ease, visibility 0s; }
+/* the art spans the whole spread's width but is clipped to the left leaf; the right leaf is paper.
+   Parallax moves .art and the rise animates the <svg>: both are transforms outside the SVG, so
+   its filters rasterize once and the compositor does the rest. Never animate inside the SVG. */
+.scene { position: absolute; inset: 0 50% 0 0; overflow: hidden; z-index: 1; }
+.scene .art { position: absolute; inset: 0; will-change: transform; transition: transform .35s ease-out; }
+.scene svg { width: 200%; height: 100%; display: block; will-change: transform; }
+/* A warm reading light from above plus a soft edge falloff. Kept gentle: a heavy black
+   vignette is what made bright pop-up palettes read as muddy. */
+.vignette { position: absolute; inset: 0; pointer-events: none; z-index: 20;
+  background: radial-gradient(52% 44% at 38% 8%, var(--lamp, rgba(255,243,210,.30)), transparent 72%),
+              radial-gradient(96% 86% at 50% 45%, transparent 62%, var(--vignette, rgba(0,0,0,.38)) 100%); }
 
-/* stage layout */
-.stage-layout { position: absolute; inset: 0; display: grid; grid-template-columns: 1fr var(--panel-w); align-items: center; padding: 64px 32px 76px; gap: 24px; }
+/* ---------- the book ---------- */
+/* Every page is an open spread lying on a table: art on the left leaf, words on the right,
+   a gutter down the middle and the stacked leaves showing at the fore-edges. */
+.book { position: absolute; inset: 6vh 5.5vw 9vh; }
+.book::before, .book::after { content: ""; position: absolute; top: 14px; bottom: 14px; width: 12px; z-index: 0;
+  background: repeating-linear-gradient(var(--paper) 0 2px, var(--paper-edge) 2px 4px); border-radius: 3px; }
+.book::before { left: -11px; } .book::after { right: -11px; }
+.spread { position: absolute; inset: 0; overflow: hidden; border-radius: 16px;
+  background: var(--paper) url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .5 0 0 0 0 .45 0 0 0 0 .35 0 0 0 .07 0'/></filter><rect width='240' height='240' filter='url(%23n)'/></svg>");
+  display: grid; grid-template-columns: 1fr 1fr;
+  box-shadow: 0 34px 60px rgba(30,16,6,.5), 0 90px 120px -40px rgba(30,16,6,.55), 0 2px 0 rgba(0,0,0,.3);
+  transform: translateY(22px) scale(.985); opacity: 0;
+  transition: transform .8s cubic-bezier(.2,.8,.2,1), opacity .7s ease; }
+.page.active .spread { transform: none; opacity: 1; }
+/* the valley fold: darkest exactly on the centre line */
+.gutter { position: absolute; left: 0; right: 0; top: 0; bottom: 0; z-index: 3; pointer-events: none;
+  background: linear-gradient(to right, transparent 41%, color-mix(in srgb, var(--paper-shadow) 55%, transparent) 50%, transparent 59%); }
+/* paper bowing: a highlight along the top of the leaves, shade along the bottom */
+.spread::after { content: ""; position: absolute; inset: 0; z-index: 4; pointer-events: none;
+  box-shadow: inset 0 16px 26px -16px rgba(255,255,255,.8), inset 0 -18px 28px -18px rgba(60,36,14,.45); }
+
+/* the right leaf: a printed page, not a floating card */
 .panel {
-  background: var(--paper); color: var(--ink); border: 2px solid var(--paper-edge);
-  border-radius: var(--radius); box-shadow: var(--shadow); padding: 26px 30px 0;
-  max-height: calc(100vh - 150px); overflow-y: auto; position: relative;
-  transform: translateY(24px); opacity: 0; transition: transform .8s cubic-bezier(.2,.8,.2,1) .15s, opacity .8s ease .15s;
+  grid-column: 2; min-width: 0; position: relative; z-index: 2; background: transparent; color: var(--ink);
+  height: 100%; overflow-y: auto; padding: 6% 8% 0 13%;
+  display: flex; flex-direction: column;
 }
-.panel::before { content: ""; position: absolute; inset: 6px; z-index: -1; border: 1px solid color-mix(in srgb, var(--paper-edge) 55%, transparent); border-radius: calc(var(--radius) - 5px); pointer-events: none; }
-.page.active .panel { transform: none; opacity: 1; }
+.panel::before { content: ""; position: absolute; inset: 4% 5%; z-index: 0;
+  border: 2px solid color-mix(in srgb, var(--paper-edge) 60%, transparent); border-radius: 10px; pointer-events: none; }
+.panel > * { position: relative; z-index: 1; }
+.folio { position: absolute; bottom: 2.6%; right: 7%; z-index: 1; font-family: var(--font-display);
+  color: var(--ink-muted); font-size: .82rem; letter-spacing: .06em; }
 .eyebrow { font-family: var(--font-display); text-transform: uppercase; letter-spacing: .18em; font-size: .72rem; color: var(--accent); margin: 0 0 6px; }
 .panel h1, .panel h2 { font-family: var(--font-display); line-height: 1.15; margin: 0 0 10px; color: var(--ink); }
-.panel h2 { font-size: calc(clamp(1.5rem, 2.2vw, 2rem) * var(--type-scale, 1)); }
+.panel h2 { font-size: calc(clamp(1.6rem, 2.4vw, 2.3rem) * var(--type-scale, 1)); font-weight: 600; letter-spacing: .005em; }
 .ornament { color: var(--paper-edge); display: flex; justify-content: center; margin: 2px 0 12px; }
-.narrative { font-size: calc(1.02rem * var(--type-scale, 1)); }
+.narrative { font-size: calc(1.08rem * var(--type-scale, 1)); line-height: 1.68; }
 .narrative p { margin: 0 0 .85em; }
 body:not(.no-drop-cap) .narrative p:first-of-type::first-letter { font-family: var(--font-display); font-size: 3.1em; float: left; line-height: .8; padding: .08em .1em 0 0; color: var(--accent); }
 .narrative code, .explanation code, .source code { font-family: "SF Mono", Menlo, Consolas, monospace; font-size: .9em; background: color-mix(in srgb, var(--paper-edge) 22%, transparent); padding: .1em .35em; border-radius: 4px; }
@@ -100,11 +128,11 @@ body:not(.no-drop-cap) .narrative p:first-of-type::first-letter { font-family: v
 .tech-note ul, .tech-note ol { margin: 0 0 .4em; padding-left: 1.2em; }
 
 /* stage footer */
-.stage-actions { display: flex; flex-wrap: wrap; gap: 10px; align-items: center;
-  /* full-bleed to the panel's padding box so scrolling text cannot show beneath it */
-  margin: 14px -30px 0; padding: 12px 30px 18px;
+.stage-actions { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-top: auto;
+  /* full-bleed to the leaf's padding box so scrolling text cannot show beneath it */
+  margin-left: -13%; margin-right: -8%; padding: 12px 8% 5% 13%;
   border-top: 1px solid color-mix(in srgb, var(--paper-edge) 60%, transparent);
-  position: sticky; bottom: 0; z-index: 2; background: var(--paper);
+  position: sticky; bottom: 0; z-index: 2; background: color-mix(in srgb, var(--paper) 92%, transparent); backdrop-filter: blur(2px);
   box-shadow: 0 -16px 20px -12px color-mix(in srgb, var(--ink) 25%, transparent); }
 .btn { border: 0; border-radius: 999px; padding: 10px 18px; font-family: var(--font-display); font-size: .95rem; letter-spacing: .02em; transition: transform .15s, box-shadow .2s, background .2s; }
 .btn:hover { transform: translateY(-1px); }
@@ -117,18 +145,23 @@ body:not(.no-drop-cap) .narrative p:first-of-type::first-letter { font-family: v
 .spacer { flex: 1; }
 
 /* ---------- cover & ending ---------- */
-.cover-layout, .ending-layout { position: absolute; inset: 0; display: grid; place-items: center; padding: 72px 24px 84px; text-align: center; }
-.cover-card { max-width: 760px; color: var(--paper); text-shadow: 0 2px 18px rgba(0,0,0,.7); transform: translateY(20px); opacity: 0; transition: transform 1s cubic-bezier(.2,.8,.2,1) .2s, opacity 1s ease .2s; }
+.cover-layout, .ending-layout { grid-column: 2; min-width: 0; position: relative; z-index: 2; background: transparent;
+  padding: 8% 8% 0 13%; text-align: center; overflow-y: auto; }
+.cover-layout { display: grid; place-items: center; padding-bottom: 8%; }
+.ending-layout .ending-card { display: flex; flex-direction: column; min-height: 100%; }
+.ending-layout .stage-actions { margin-left: -13%; margin-right: -8%; padding: 12px 8% 5% 13%; }
+.cover-card { max-width: 520px; color: var(--ink); transform: translateY(20px); opacity: 0; transition: transform 1s cubic-bezier(.2,.8,.2,1) .2s, opacity 1s ease .2s; }
 .page.active .cover-card { transform: none; opacity: 1; }
-.cover-card .eyebrow { color: var(--paper); opacity: .85; text-shadow: 0 1px 10px rgba(0,0,0,.85); }
+.cover-card .eyebrow { color: var(--accent); }
 .cover-card h1 { font-family: var(--font-display); font-size: clamp(2.4rem, 6vw, 4.6rem); line-height: 1.05; margin: 0 0 10px; }
-.cover-card .subtitle { font-size: clamp(1.05rem, 1.8vw, 1.35rem); opacity: .92; margin: 0 0 22px; font-style: italic; }
+.cover-card .subtitle { font-size: clamp(1.1rem, 1.9vw, 1.45rem); opacity: .92; margin: 0 0 22px; font-style: italic; font-family: var(--font-display); }
 .cover-card .blurb { font-size: calc(1.05rem * var(--type-scale, 1)); max-width: 620px; margin: 0 auto 26px; opacity: .95; }
 .cover-card .blurb p { margin: 0 0 .8em; }
 .cover-card .ornament { color: var(--accent-2); }
 .cover-card .btn.primary { font-size: 1.1rem; padding: 14px 30px; }
 .cover-card .hint { margin-top: 18px; font-size: .8rem; opacity: .7; }
-.ending-layout .panel { max-width: 720px; width: 100%; text-align: left; }
+.ending-layout { text-align: left; }
+.ending-layout .ending-card { width: 100%; }
 .recap { margin: 0 0 18px; padding-left: 1.2em; font-size: calc(1rem * var(--type-scale, 1)); }
 .recap li { margin: 0 0 .5em; }
 .chips { display: flex; flex-wrap: wrap; gap: 6px; margin: 6px 0 14px; }
@@ -179,6 +212,37 @@ details.source-box .source { padding: 4px 14px 14px; font-size: .92rem; }
 .codex-list .where { color: var(--ink-muted); font-size: .82rem; margin-top: 2px; }
 .codex-list .stage-group { font-family: var(--font-display); text-transform: uppercase; letter-spacing: .14em; font-size: .7rem; color: var(--ink-muted); margin: 16px 0 4px; border: 0; }
 
+/* ---------- pop-up paper ---------- */
+/* Shared filters and gradients live in one hidden <svg> so every scene can reference them
+   by id without repeating a <defs> block. Shadow colour comes from the theme. */
+.paper-defs { position: absolute; width: 0; height: 0; overflow: hidden; }
+.paper-defs feDropShadow { flood-color: var(--paper-shadow, #0d3a2c); }
+
+/* The rise: standing pieces unfold from the page when the spread opens. Scoped to
+   .page.active so it replays every time the reader turns to the stage, and so inactive
+   pages are not animating off-screen. */
+@keyframes pop-rise { from { transform: translateY(7%) scaleY(.88); opacity: 0; } to { transform: none; opacity: 1; } }
+.page.active .scene svg { animation: pop-rise .75s cubic-bezier(.18,.9,.25,1) both; transform-origin: bottom center; }
+/* .pop / rise-N are kept as harmless markers on scene groups; they no longer animate individually */
+
+/* ---------- subtle life on cards: groups the engine marks with data-anim. They hold only
+   unfiltered shapes, so each frame is a cheap repaint. Amplitudes are deliberately small. ---------- */
+@keyframes a-flap   { 0%,100% { transform: rotate(0) }        50% { transform: rotate(calc(-1deg * var(--amt, 5))) } }
+@keyframes a-flap-r { 0%,100% { transform: rotate(0) }        50% { transform: rotate(calc( 1deg * var(--amt, 5))) } }
+@keyframes a-sway   { 0%,100% { transform: rotate(calc(-1deg * var(--amt, 2))) } 50% { transform: rotate(calc(1deg * var(--amt, 2))) } }
+@keyframes a-bob    { 0%,100% { transform: translateY(0) }    50% { transform: translateY(calc(-1px * var(--amt, 6))) } }
+@keyframes a-flicker{ 0%,100% { transform: scale(1, 1); opacity: .96 } 30% { transform: scale(.985, 1.03); opacity: 1 } 60% { transform: scale(1.015, .97); opacity: .9 } }
+@keyframes a-pulse  { 0%,100% { opacity: .75 } 50% { opacity: 1 } }
+@keyframes a-spin   { to { transform: rotate(360deg) } }
+.scene [data-anim] { transform-box: view-box; animation-timing-function: ease-in-out; animation-iteration-count: infinite; }
+.scene [data-anim="flap"]    { animation-name: a-flap;    animation-duration: 3.4s; }
+.scene [data-anim="flap-r"]  { animation-name: a-flap-r;  animation-duration: 3.4s; }
+.scene [data-anim="sway"]    { animation-name: a-sway;    animation-duration: 4.5s; }
+.scene [data-anim="bob"]     { animation-name: a-bob;     animation-duration: 3.8s; }
+.scene [data-anim="flicker"] { animation-name: a-flicker; animation-duration: 1.1s; }
+.scene [data-anim="pulse"]   { animation-name: a-pulse;   animation-duration: 2.6s; }
+.scene [data-anim="spin"]    { animation-name: a-spin;    animation-duration: 40s; animation-timing-function: linear; }
+
 /* ---------- scene motion helpers (opt-in classes for hand-made SVG) ---------- */
 @keyframes drift { from { transform: translateX(-3%); } to { transform: translateX(3%); } }
 @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-1.5%); } }
@@ -199,21 +263,52 @@ details.source-box .source { padding: 4px 14px 14px; font-size: .92rem; }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition-duration: .01ms !important; }
-  .scene [data-depth] { transform: none !important; }
+  .scene .art { transform: none !important; }
 }
 
 /* ---------- responsive ---------- */
 @media (max-width: 900px) {
-  .stage-layout { grid-template-columns: 1fr; align-items: end; padding: 64px 14px 76px; }
-  .panel { max-height: 62vh; padding: 22px 20px 18px; }
+  .book { inset: 5vh 4vw 9vh; }
+  .spread { grid-template-columns: 1fr; grid-template-rows: 40% 60%; }
+  .scene { inset: 0 0 60% 0; grid-row: 1; }
+  .panel, .cover-layout, .ending-layout { grid-column: 1; grid-row: 2; padding: 6% 7% 0; }
+  .stage-actions { margin-left: -7%; margin-right: -7%; padding: 12px 7% 6%; }
+  /* the fold runs across the spread instead of down it */
+  .gutter { background: linear-gradient(to bottom, transparent 34%, color-mix(in srgb, var(--paper-shadow) 45%, transparent) 40%, transparent 46%); }
   .topbar .progress { display: none; }
   .map .node .tip { display: none; }
-  .cover-card h1 { font-size: 2.4rem; }
+  .cover-card h1 { font-size: 2.2rem; }
+  .folio { display: none; }
 }
 </style>
 </head>
 <body class="__BODY_CLASS__">
 <a class="sr-only" href="#main">Skip to content</a>
+
+<!-- Pop-up paper: shared filters and gradients, referenced from every scene by id.
+     paper-far/mid/near are the shadows a standing cut-out throws onto the layer behind it;
+     paper-lit is the light falling down a standing flat; paper-fold is the shading either
+     side of a centre fold; paper-glow is a cheap sun or lantern halo. -->
+<svg class="paper-defs" aria-hidden="true" focusable="false"><defs>
+  <filter id="paper-far" x="-25%" y="-25%" width="160%" height="170%">
+    <feDropShadow dx="4" dy="10" stdDeviation="7" flood-opacity=".30"/></filter>
+  <filter id="paper-mid" x="-25%" y="-25%" width="160%" height="170%">
+    <feDropShadow dx="8" dy="20" stdDeviation="11" flood-opacity=".42"/></filter>
+  <filter id="paper-near" x="-30%" y="-30%" width="170%" height="180%">
+    <feDropShadow dx="12" dy="28" stdDeviation="17" flood-opacity=".50"/></filter>
+  <linearGradient id="paper-lit" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#fff" stop-opacity=".26"/>
+    <stop offset=".55" stop-color="#fff" stop-opacity="0"/>
+    <stop offset="1" stop-color="#001a12" stop-opacity=".22"/></linearGradient>
+  <linearGradient id="paper-fold" x1="0" y1="0" x2="1" y2="0">
+    <stop offset="0" stop-color="#fff" stop-opacity=".20"/>
+    <stop offset=".5" stop-color="#fff" stop-opacity="0"/>
+    <stop offset="1" stop-color="#001a12" stop-opacity=".18"/></linearGradient>
+  <radialGradient id="paper-glow" cx=".5" cy=".5" r=".5">
+    <stop offset="0" stop-color="#fff6d0" stop-opacity=".85"/>
+    <stop offset="1" stop-color="#fff6d0" stop-opacity="0"/></radialGradient>
+</defs></svg>
+
 <header class="topbar">
   <div class="book-title" id="book-title"></div>
   <div class="progress" id="progress" aria-live="polite"></div>
@@ -275,58 +370,72 @@ details.source-box .source { padding: 4px 14px 14px; font-size: .92rem; }
   function rng(seed) { var t = seed * 9301 + 49297; return function () { t = (t * 9301 + 49297) % 233280; return t / 233280; }; }
   function defaultScene(i, style) {
     var r = rng(i + 7), W = 1600, H = 900, s = '';
-    var sky = '<defs><linearGradient id="sky' + i + '" x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color:var(--sky-1)"/><stop offset="1" style="stop-color:var(--sky-2)"/></linearGradient></defs>' +
+    var sky = '<defs><linearGradient id="sky' + i + '" x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color:var(--sky-1)"/><stop offset="1" style="stop-color:var(--sky-2)"/></linearGradient>' +
+              '<linearGradient id="seam' + i + '" x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color:var(--paper-shadow)" stop-opacity=".42"/><stop offset=".2" style="stop-color:var(--paper-shadow)" stop-opacity="0"/></linearGradient>' +
+              '<filter id="dof' + i + '" x="-10%" y="-10%" width="120%" height="120%"><feGaussianBlur stdDeviation="7"/><feColorMatrix type="saturate" values=".72"/></filter>' +
+              '<filter id="soft' + i + '" x="-40%" y="-80%" width="180%" height="260%"><feGaussianBlur stdDeviation="14"/></filter>' +
+              '<radialGradient id="halo' + i + '" cx=".5" cy=".5" r=".5"><stop offset="0" style="stop-color:var(--accent-2)" stop-opacity=".55"/><stop offset="1" style="stop-color:var(--accent-2)" stop-opacity="0"/></radialGradient></defs>' +
               '<rect width="' + W + '" height="' + H + '" fill="url(#sky' + i + ')"/>';
-    function ridge(y, amp, depth, color, cls) {
-      var pts = 'M0 ' + H + ' L0 ' + y, x = 0, step = 90 + r() * 60;
-      while (x < W) { x += step; pts += ' L' + x + ' ' + (y + (r() - 0.5) * amp * 2); }
-      pts += ' L' + W + ' ' + H + ' Z';
-      return '<g data-depth="' + depth + '"' + (cls ? ' class="' + cls + '"' : '') + '><path d="' + pts + '" style="fill:var(--' + color + ')"/></g>';
+    // a smooth closed curve through points, the same Catmull-Rom the engine uses
+    function curve(pts) {
+      var n = pts.length, d = 'M' + pts[0][0].toFixed(0) + ' ' + pts[0][1].toFixed(0);
+      for (var k = 0; k < n; k++) {
+        var p0 = pts[(k - 1 + n) % n], p1 = pts[k], p2 = pts[(k + 1) % n], p3 = pts[(k + 2) % n];
+        var c1x = p1[0] + (p2[0] - p0[0]) / 7.5, c1y = p1[1] + (p2[1] - p0[1]) / 7.5, c2x = p2[0] - (p3[0] - p1[0]) / 7.5, c2y = p2[1] - (p3[1] - p1[1]) / 7.5;
+        d += ' C' + c1x.toFixed(0) + ' ' + c1y.toFixed(0) + ' ' + c2x.toFixed(0) + ' ' + c2y.toFixed(0) + ' ' + p2[0].toFixed(0) + ' ' + p2[1].toFixed(0);
+      }
+      return d + ' Z';
     }
-    function stars(n, depth) {
-      var g = '<g data-depth="' + depth + '">';
-      for (var k = 0; k < n; k++) g += '<circle cx="' + (r() * W).toFixed(0) + '" cy="' + (r() * H * 0.7).toFixed(0) + '" r="' + (0.6 + r() * 1.8).toFixed(1) + '" fill="#fff" class="twinkle delay-' + (1 + k % 3) + '" style="animation-duration:' + (2 + r() * 3).toFixed(1) + 's"/>';
-      return g + '</g>';
+    function hill(base, amp, color, op) {
+      var pts = [[-60, 720]], x = -60;
+      while (x < W + 60) { x += 180 + r() * 120; pts.push([x, base - 40 - r() * amp]); }
+      pts.push([W + 60, 720]);
+      return '<path d="' + curve(pts) + '" fill="' + color + '" opacity="' + op + '"/>';
     }
-    function orb(cx, cy, rad, color, cls) { return '<g data-depth="0.02"><circle cx="' + cx + '" cy="' + cy + '" r="' + rad + '" style="fill:var(--' + color + ')" class="' + (cls || '') + '"/><circle cx="' + cx + '" cy="' + cy + '" r="' + (rad * 1.6) + '" style="fill:var(--' + color + ')" opacity=".18"/></g>'; }
+    // 1. back panel: sun, a cloud, two soft hills, all out of focus
+    var panel = '<g data-depth="0.02" filter="url(#dof' + i + ')">';
     if (style === 'stars') {
-      s = sky + stars(140, 0.02) + orb(300 + r() * 900, 160 + r() * 200, 60 + r() * 60, 'accent-2', 'pulse slow') +
-          ridge(660, 90, 0.05, 'land-1') + ridge(740, 60, 0.09, 'land-2') + ridge(820, 30, 0.14, 'land-3');
-    } else if (style === 'waves') {
-      s = sky + stars(50, 0.02) + orb(1200, 180, 70, 'paper', 'float slow');
-      s += ridge(600, 70, 0.04, 'land-3');
-      for (var w = 0; w < 4; w++) {
-        var y = 640 + w * 60, path = 'M0 ' + y, x2 = -100;
-        while (x2 < W + 200) { path += ' q 50 -' + (18 + w * 4) + ' 100 0'; x2 += 100; }
-        path += ' V' + H + ' H-200 Z';
-        s += '<g data-depth="' + (0.05 + w * 0.04) + '" class="drift' + (w % 2 ? ' slow' : '') + '" style="animation-delay:-' + (w * 4) + 's"><path d="' + path + '" style="fill:var(--water)" opacity="' + (0.55 + w * 0.12) + '" transform="translate(-100 0)"/></g>';
-      }
-    } else if (style === 'skyline') {
-      s = sky + stars(40, 0.02) + orb(280, 200, 60, 'paper', 'flicker slow');
-      function skylineRow(base, depth, color, minH, maxH) {
-        var g = '<g data-depth="' + depth + '">', x = 0;
-        while (x < W) { var bw = 50 + r() * 110, bh = minH + r() * (maxH - minH); g += '<rect x="' + x.toFixed(0) + '" y="' + (base - bh).toFixed(0) + '" width="' + bw.toFixed(0) + '" height="' + (bh + 200).toFixed(0) + '" style="fill:var(--' + color + ')"/>'; x += bw + 6; }
-        return g + '</g>';
-      }
-      s += skylineRow(700, 0.04, 'land-1', 150, 420) + skylineRow(760, 0.08, 'land-2', 100, 300) + skylineRow(820, 0.13, 'land-3', 60, 220);
-      s += '<g data-depth="0.15"><rect x="0" y="820" width="' + W + '" height="' + (H - 820) + '" style="fill:var(--water)" opacity=".8"/></g>';
-    } else { // hills
-      s = sky + orb(380 + r() * 800, 190 + r() * 120, 70 + r() * 40, 'paper', 'pulse slow');
-      s += '<g data-depth="0.03" class="drift slow"><ellipse cx="400" cy="230" rx="160" ry="34" fill="#fff" opacity=".45"/><ellipse cx="470" cy="215" rx="90" ry="28" fill="#fff" opacity=".5"/></g>';
-      s += '<g data-depth="0.04" class="drift" style="animation-delay:-9s"><ellipse cx="1150" cy="300" rx="180" ry="30" fill="#fff" opacity=".35"/></g>';
-      s += ridge(560, 120, 0.05, 'land-1') + ridge(680, 80, 0.09, 'land-2') + ridge(790, 40, 0.14, 'land-3');
+      for (var k = 0; k < 90; k++) panel += '<circle cx="' + (r() * W).toFixed(0) + '" cy="' + (r() * H * .6).toFixed(0) + '" r="' + (1 + r() * 2.2).toFixed(1) + '" fill="#fff" opacity="' + (.4 + r() * .6).toFixed(2) + '"/>';
+      panel += '<circle cx="1180" cy="200" r="220" fill="url(#halo' + i + ')" opacity=".6"/><circle cx="1180" cy="200" r="70" style="fill:var(--paper)"/>';
+    } else {
+      panel += '<circle cx="300" cy="190" r="230" fill="url(#halo' + i + ')"/><circle cx="300" cy="190" r="68" style="fill:var(--accent-2)" opacity=".9"/>';
+      panel += '<path d="' + curve([[460, 240], [470, 200], [520, 170], [580, 180], [620, 140], [690, 144], [730, 190], [780, 200], [786, 244], [750, 270], [490, 270]]) + '" fill="#fff" opacity=".9"/>';
     }
-    return '<svg viewBox="0 0 ' + W + ' ' + H + '" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">' + s + '</svg>';
+    if (style === 'waves') {
+      panel += hill(640, 30, 'color-mix(in srgb, var(--water) 55%, var(--sky-2))', .7) + hill(670, 24, 'color-mix(in srgb, var(--water) 75%, var(--sky-2))', .6);
+    } else if (style === 'skyline') {
+      var x = -40; panel += '<g opacity=".55">';
+      while (x < W) { var bw = 60 + r() * 120, bh = 120 + r() * 300; panel += '<rect x="' + x.toFixed(0) + '" y="' + (700 - bh).toFixed(0) + '" width="' + bw.toFixed(0) + '" height="' + (bh + 40).toFixed(0) + '" style="fill:var(--land-2)"/>'; x += bw + 8; }
+      panel += '</g>';
+    } else {
+      panel += hill(600, 120, 'color-mix(in srgb, var(--land-1) 55%, var(--sky-2))', .7) + hill(626, 80, 'color-mix(in srgb, var(--land-2) 50%, var(--sky-2))', .55);
+    }
+    panel += '</g>';
+    // 2. the page: ground, a path, a few flowers. No hero: the words carry this stage.
+    var pageD = 'M-200 900 L60 648 Q700 612 1700 648 L1900 900 Z';
+    var page = '<g data-depth="0.12"><path d="' + pageD + '" style="fill:var(--ground)"/><path d="' + pageD + '" fill="url(#seam' + i + ')"/>' +
+               '<path d="M300 634 q-70 132 -252 266 L570 900 q28-152 152-266 Z" fill="#fff" opacity=".28"/>';
+    for (var f = 0; f < 8; f++) page += '<circle cx="' + (80 + r() * 640).toFixed(0) + '" cy="' + (690 + r() * 190).toFixed(0) + '" r="' + (6 + r() * 3).toFixed(0) + '" style="fill:var(--' + (f % 2 ? 'accent' : 'accent-2') + ')" opacity=".85"/>';
+    page += '</g>';
+    // 3. two small flats at the near edge, cut card with a shadow, so the page still stands up
+    var bush = function (x, y, sc) { return '<path transform="translate(' + x + ',' + y + ') scale(' + sc + ')" d="' + curve([[0, 100], [14, 44], [54, 22], [104, 30], [136, 6], [188, 16], [224, 40], [268, 34], [300, 60], [300, 100]]) + '" style="fill:var(--land-3)" stroke="var(--cut)" stroke-width="12" paint-order="stroke"/>'; };
+    var flats = '<g data-depth="0.17"><g class="pop rise-4" filter="url(#paper-mid)">' + bush(20, 786, 1) + bush(600, 806, .66) + '</g></g>';
+    return '<svg viewBox="0 0 ' + W + ' ' + H + '" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">' + sky + panel + page + flats + '</svg>';
   }
   function sceneMarkup(scene, i) {
     var svg = scene && /^\s*<svg/i.test(scene) ? scene : defaultScene(i, THEME.sceneStyle || 'hills');
-    return '<div class="scene">' + svg + '</div><div class="vignette"></div>';
+    return '<div class="scene"><div class="art">' + svg + '</div></div>';
+  }
+  // the open spread: art across both leaves, the right leaf laid over it with the words
+  function spread(scene, i, leaf) {
+    return '<div class="book"><div class="spread">' + sceneMarkup(scene, i) + leaf +
+           '<div class="gutter"></div></div></div><div class="vignette"></div>';
   }
 
   // ---------- rendering ----------
   function renderCover() {
     var c = BOOK.cover || {};
-    return sceneMarkup(c.scene, 0) +
+    return spread(c.scene, 0,
       '<div class="cover-layout"><div class="cover-card">' +
       (c.eyebrow ? '<p class="eyebrow">' + esc(c.eyebrow) + '</p>' : '') +
       '<h1>' + esc(BOOK.title) + '</h1>' +
@@ -335,13 +444,13 @@ details.source-box .source { padding: 4px 14px 14px; font-size: .92rem; }
       (c.blurb ? '<div class="blurb">' + c.blurb + '</div>' : '') +
       '<button class="btn primary" data-go="1" type="button">' + esc(V.begin) + '</button>' +
       '<p class="hint">' + esc(BOOK.hint || 'Use the arrow keys to travel. Click the highlighted words to look behind the tale.') + '</p>' +
-      '</div></div>';
+      '</div></div>');
   }
   function renderStage(p, i) {
     var s = p.stage, n = i; // i is 1-based among stages because cover is 0
     var chapter = s.chapter || (V.chapter + ' ' + n);
-    return sceneMarkup(s.scene, i) +
-      '<div class="stage-layout"><div></div><article class="panel" tabindex="-1">' +
+    return spread(s.scene, i,
+      '<article class="panel" tabindex="-1">' +
       '<p class="eyebrow">' + esc(chapter) + '</p>' +
       '<h2>' + esc(s.title) + '</h2>' + ornament() +
       '<div class="narrative">' + (s.narrative || '') + '</div>' +
@@ -351,21 +460,21 @@ details.source-box .source { padding: 4px 14px 14px; font-size: .92rem; }
       '<span class="spacer"></span>' +
       '<button class="btn secondary" data-go="' + (i - 1) + '" type="button">' + esc(V.back) + '</button>' +
       '<button class="btn primary" data-go="' + (i + 1) + '" type="button">' + esc(i === stages.length ? V.finish : V.next) + '</button>' +
-      '</div></article></div>';
+      '</div><span class="folio">' + i + '</span></article>');
   }
   function renderEnding() {
     var e = BOOK.ending || {};
     var recap = (e.recap || []).map(function (r) { return '<li>' + r + '</li>'; }).join('');
     var chips = allPopouts().map(function (x) { return '<button class="chip" data-popout="' + esc(x.popout.id) + '" data-stage="' + x.stageIndex + '" type="button">' + esc(x.popout.term || x.popout.title) + '</button>'; }).join('');
-    return sceneMarkup(e.scene, pages.length - 1) +
-      '<div class="ending-layout"><article class="panel">' +
+    return spread(e.scene, pages.length - 1,
+      '<div class="ending-layout"><article class="ending-card" tabindex="-1">' +
       '<p class="eyebrow">' + esc(e.eyebrow || V.recap) + '</p>' +
       '<h2>' + esc(e.title || BOOK.title) + '</h2>' + ornament() +
       (e.blurb ? '<div class="narrative">' + e.blurb + '</div>' : '') +
       (recap ? '<ul class="recap">' + recap + '</ul>' : '') +
       (chips ? '<p class="eyebrow">' + esc(V.codex) + '</p><div class="chips">' + chips + '</div>' : '') +
       '<div class="stage-actions"><button class="btn secondary" data-go="' + (pages.length - 2) + '" type="button">' + esc(V.back) + '</button><span class="spacer"></span><button class="btn primary" data-go="0" type="button">' + esc(V.restart) + '</button></div>' +
-      '</article></div>';
+      '</article></div>');
   }
 
   var main = document.getElementById('main');
@@ -399,7 +508,7 @@ details.source-box .source { padding: 4px 14px 14px; font-size: .92rem; }
     prog.textContent = pages[i].type === 'stage' ? fmt(V.stageOf, { n: i, total: stages.length }) : '';
     try { localStorage.setItem(storageKey, JSON.stringify({ index: index, visited: visited })); } catch (e) { /* ignore */ }
     if (history.replaceState) history.replaceState(null, '', '#page-' + i);
-    if (!(opts && opts.silent)) { var panel = sections[i].querySelector('.panel'); if (panel) { panel.scrollTop = 0; panel.focus({ preventScroll: true }); } }
+    if (!(opts && opts.silent)) { var panel = sections[i].querySelector('.panel, .ending-card, .cover-card'); if (panel) { panel.scrollTop = 0; panel.focus({ preventScroll: true }); } }
   }
 
   // ---------- drawer ----------
@@ -461,9 +570,9 @@ details.source-box .source { padding: 4px 14px 14px; font-size: .92rem; }
   // parallax
   if (!reduced) {
     document.addEventListener('mousemove', function (e) {
-      var active = main.querySelector('.page.active .scene'); if (!active) return;
+      var art = main.querySelector('.page.active .scene .art'); if (!art) return;
       var dx = (e.clientX / window.innerWidth - 0.5), dy = (e.clientY / window.innerHeight - 0.5);
-      active.querySelectorAll('[data-depth]').forEach(function (el) { var d = parseFloat(el.dataset.depth) || 0; el.style.transform = 'translate(' + (-dx * d * 400).toFixed(1) + 'px,' + (-dy * d * 200).toFixed(1) + 'px)'; });
+      art.style.transform = 'translate(' + (-dx * 18).toFixed(1) + 'px,' + (-dy * 10).toFixed(1) + 'px)';
     });
   }
 

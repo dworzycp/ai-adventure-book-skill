@@ -1,29 +1,34 @@
 {
-  "_comment": "Visual presets for adventure-book. Keys under colors become CSS custom properties (bg -> --bg, bg2 -> --bg-2, inkMuted -> --ink-muted). A custom theme may set \"extends\" to inherit from one of these and override the rest.",
+  "_comment": "Visual presets for adventure-book. Keys under colors become CSS custom properties (bg -> --bg, paperEdge -> --paper-edge, paperShadow -> --paper-shadow). A custom theme may set \"extends\" to inherit from one of these and override the rest. Every palette here is a pop-up book palette: saturated, fully coloured layers, a white cut edge (--cut) on every shape, and a tinted cast shadow (--paper-shadow) thrown between layers. --ground is the flat base page the standing pieces rise from; --lamp and --vignette are the reading light and the edge falloff.",
   "knight": {
     "name": "Medieval knight on a quest",
     "sceneStyle": "hills",
     "colors": {
-      "bg": "#17110c",
-      "bg2": "#2b1f14",
-      "ink": "#2a1d12",
-      "inkMuted": "#6e5b46",
-      "paper": "#f4e7c9",
-      "paperEdge": "#b8915a",
-      "accent": "#8d1f1f",
-      "accent2": "#c99d2a",
-      "glow": "rgba(201,157,42,0.55)",
-      "topbarInk": "#f4e7c9",
-      "sky1": "#f6c56e",
-      "sky2": "#d9683f",
-      "land1": "#7a8a52",
-      "land2": "#46592f",
-      "land3": "#27331c",
-      "water": "#4f7f8e"
+      "sky1": "#5fc9ef",
+      "sky2": "#dbf1fb",
+      "land1": "#86d45f",
+      "land2": "#34a05a",
+      "land3": "#15704a",
+      "water": "#1f9fd8",
+      "accent": "#ef5a23",
+      "accent2": "#ffc233",
+      "paper": "#fff7e4",
+      "paperEdge": "#e0c391",
+      "ink": "#2a3320",
+      "inkMuted": "#6f7d62",
+      "bg": "#3d2b1c",
+      "bg2": "#7a5432",
+      "glow": "rgba(255,194,51,0.65)",
+      "topbarInk": "#fff7e4",
+      "cut": "#fffdf4",
+      "ground": "#d2eda6",
+      "lamp": "rgba(255,243,210,0.32)",
+      "vignette": "rgba(40,22,8,0.34)",
+      "paperShadow": "#0d3a2c"
     },
     "fonts": {
-      "display": "\"Palatino Linotype\", Palatino, \"Book Antiqua\", \"Iowan Old Style\", Georgia, serif",
-      "body": "\"Iowan Old Style\", Georgia, \"Times New Roman\", serif"
+      "display": "\"Cochin\", \"Hoefler Text\", \"Iowan Old Style\", Georgia, serif",
+      "body": "\"Baskerville\", \"Iowan Old Style\", \"Charter\", Georgia, serif"
     },
     "vocabulary": {
       "begin": "Begin the quest",
@@ -43,32 +48,38 @@
       "codexIntro": "Every marked word in the tale hides something real. Here they all are.",
       "note": "The plain truth"
     },
-    "ornament": "<svg viewBox='0 0 200 20' width='200' height='20' aria-hidden='true'><path d='M0 10 H80 M120 10 H200' stroke='currentColor' stroke-width='1.5'/><path d='M100 2 L108 10 L100 18 L92 10 Z' fill='currentColor'/><circle cx='84' cy='10' r='2' fill='currentColor'/><circle cx='116' cy='10' r='2' fill='currentColor'/></svg>"
+    "ornament": "<svg viewBox='0 0 200 20' width='200' height='20' aria-hidden='true'><path d='M0 10 H80 M120 10 H200' stroke='currentColor' stroke-width='1.5'/><path d='M100 2 L108 10 L100 18 L92 10 Z' fill='currentColor'/><circle cx='84' cy='10' r='2' fill='currentColor'/><circle cx='116' cy='10' r='2' fill='currentColor'/></svg>",
+    "typeScale": 1.12
   },
   "space": {
     "name": "Deep-space explorer",
     "sceneStyle": "stars",
     "colors": {
-      "bg": "#05070f",
-      "bg2": "#0d1326",
-      "ink": "#0b1020",
-      "inkMuted": "#4f5b7a",
-      "paper": "#e9eefb",
-      "paperEdge": "#6f8cff",
-      "accent": "#3f6cff",
-      "accent2": "#5ee0d8",
-      "glow": "rgba(94,224,216,0.55)",
-      "topbarInk": "#e9eefb",
-      "sky1": "#0b1230",
-      "sky2": "#2a1a5a",
-      "land1": "#5a4fa0",
-      "land2": "#33306a",
-      "land3": "#1a1a3f",
-      "water": "#1d3b6b"
+      "sky1": "#2a1e78",
+      "sky2": "#7b45c4",
+      "land1": "#9a7ae8",
+      "land2": "#5a45bc",
+      "land3": "#2e2470",
+      "water": "#2a6fe0",
+      "accent": "#ff6b3d",
+      "accent2": "#4fe3d8",
+      "paper": "#f4f7ff",
+      "paperEdge": "#a9b8ff",
+      "ink": "#1b1f38",
+      "inkMuted": "#5c6690",
+      "bg": "#0a0a22",
+      "bg2": "#241a52",
+      "glow": "rgba(79,227,216,0.65)",
+      "topbarInk": "#f4f7ff",
+      "cut": "#fdfdff",
+      "ground": "#8e79e4",
+      "lamp": "rgba(200,235,255,0.26)",
+      "vignette": "rgba(6,4,24,0.42)",
+      "paperShadow": "#120a3a"
     },
     "fonts": {
-      "display": "\"Avenir Next\", \"Helvetica Neue\", Futura, \"Segoe UI\", sans-serif",
-      "body": "\"Avenir Next\", \"Helvetica Neue\", \"Segoe UI\", Arial, sans-serif"
+      "display": "\"Cochin\", \"Hoefler Text\", \"Iowan Old Style\", Georgia, serif",
+      "body": "\"Baskerville\", \"Iowan Old Style\", \"Charter\", Georgia, serif"
     },
     "vocabulary": {
       "begin": "Launch",
@@ -88,32 +99,38 @@
       "codexIntro": "Every highlighted reading in the log points at something real.",
       "note": "Instrument reading"
     },
-    "ornament": "<svg viewBox='0 0 200 20' width='200' height='20' aria-hidden='true'><path d='M0 10 H70 M130 10 H200' stroke='currentColor' stroke-width='1.5'/><ellipse cx='100' cy='10' rx='22' ry='6' fill='none' stroke='currentColor' stroke-width='1.5'/><circle cx='100' cy='10' r='4' fill='currentColor'/></svg>"
+    "ornament": "<svg viewBox='0 0 200 20' width='200' height='20' aria-hidden='true'><path d='M0 10 H70 M130 10 H200' stroke='currentColor' stroke-width='1.5'/><ellipse cx='100' cy='10' rx='22' ry='6' fill='none' stroke='currentColor' stroke-width='1.5'/><circle cx='100' cy='10' r='4' fill='currentColor'/></svg>",
+    "typeScale": 1.12
   },
   "pirate": {
     "name": "Pirate voyage",
     "sceneStyle": "waves",
     "colors": {
-      "bg": "#0e1a22",
-      "bg2": "#16303b",
-      "ink": "#241a10",
-      "inkMuted": "#6b5a44",
-      "paper": "#efdcb4",
-      "paperEdge": "#9c7a45",
-      "accent": "#a8321f",
-      "accent2": "#d4a53a",
-      "glow": "rgba(212,165,58,0.55)",
-      "topbarInk": "#efdcb4",
-      "sky1": "#f2b76b",
-      "sky2": "#c85a45",
-      "land1": "#2f6f7a",
-      "land2": "#1f505c",
-      "land3": "#143641",
-      "water": "#1e5f6e"
+      "sky1": "#56c7ef",
+      "sky2": "#ffe293",
+      "land1": "#7fc96a",
+      "land2": "#2f9b57",
+      "land3": "#14664a",
+      "water": "#128fc4",
+      "accent": "#e2452a",
+      "accent2": "#ffc233",
+      "paper": "#fff3d6",
+      "paperEdge": "#d9b271",
+      "ink": "#2c2113",
+      "inkMuted": "#7a6a4f",
+      "bg": "#123040",
+      "bg2": "#2a6076",
+      "glow": "rgba(255,194,51,0.65)",
+      "topbarInk": "#fff3d6",
+      "cut": "#fffdf2",
+      "ground": "#5fc9e8",
+      "lamp": "rgba(255,240,200,0.30)",
+      "vignette": "rgba(6,30,44,0.36)",
+      "paperShadow": "#06364a"
     },
     "fonts": {
-      "display": "\"Baskerville\", \"Libre Baskerville\", \"Book Antiqua\", Georgia, serif",
-      "body": "Georgia, \"Times New Roman\", serif"
+      "display": "\"Cochin\", \"Hoefler Text\", \"Iowan Old Style\", Georgia, serif",
+      "body": "\"Baskerville\", \"Iowan Old Style\", \"Charter\", Georgia, serif"
     },
     "vocabulary": {
       "begin": "Set sail",
@@ -133,32 +150,38 @@
       "codexIntro": "Every marked word on this voyage hides something real.",
       "note": "Plain speaking"
     },
-    "ornament": "<svg viewBox='0 0 200 20' width='200' height='20' aria-hidden='true'><path d='M0 10 H78 M122 10 H200' stroke='currentColor' stroke-width='1.5' stroke-dasharray='6 4'/><path d='M100 3 V17 M92 8 H108 M94 14 Q100 19 106 14' stroke='currentColor' stroke-width='1.8' fill='none'/></svg>"
+    "ornament": "<svg viewBox='0 0 200 20' width='200' height='20' aria-hidden='true'><path d='M0 10 H78 M122 10 H200' stroke='currentColor' stroke-width='1.5' stroke-dasharray='6 4'/><path d='M100 3 V17 M92 8 H108 M94 14 Q100 19 106 14' stroke='currentColor' stroke-width='1.8' fill='none'/></svg>",
+    "typeScale": 1.12
   },
   "noir": {
     "name": "Detective noir",
     "sceneStyle": "skyline",
     "colors": {
-      "bg": "#0a0a0c",
-      "bg2": "#17171c",
-      "ink": "#151517",
-      "inkMuted": "#5b5b63",
-      "paper": "#ecebe5",
-      "paperEdge": "#8f8f96",
-      "accent": "#b3261e",
-      "accent2": "#d9b44a",
-      "glow": "rgba(217,180,74,0.5)",
-      "topbarInk": "#ecebe5",
-      "sky1": "#1b1b24",
-      "sky2": "#3a2f3f",
-      "land1": "#2a2a33",
-      "land2": "#1c1c23",
-      "land3": "#101014",
-      "water": "#22242f"
+      "sky1": "#313a5c",
+      "sky2": "#7a5c8e",
+      "land1": "#535a82",
+      "land2": "#363b58",
+      "land3": "#1e2033",
+      "water": "#2b3350",
+      "accent": "#e2453a",
+      "accent2": "#ffca4a",
+      "paper": "#f6f3e8",
+      "paperEdge": "#bab3a1",
+      "ink": "#191a20",
+      "inkMuted": "#5f6069",
+      "bg": "#0a0b10",
+      "bg2": "#1d1f2c",
+      "glow": "rgba(255,202,74,0.55)",
+      "topbarInk": "#f6f3e8",
+      "cut": "#fffdf6",
+      "ground": "#565d80",
+      "lamp": "rgba(255,226,170,0.22)",
+      "vignette": "rgba(3,4,8,0.5)",
+      "paperShadow": "#08090f"
     },
     "fonts": {
-      "display": "\"Didot\", \"Bodoni 72\", \"Playfair Display\", Georgia, serif",
-      "body": "\"Courier New\", Courier, monospace"
+      "display": "\"Cochin\", \"Hoefler Text\", \"Iowan Old Style\", Georgia, serif",
+      "body": "\"Baskerville\", \"Iowan Old Style\", \"Charter\", Georgia, serif"
     },
     "vocabulary": {
       "begin": "Take the case",
@@ -178,32 +201,38 @@
       "codexIntro": "Every underlined clue is a real fact in disguise.",
       "note": "The facts"
     },
-    "ornament": "<svg viewBox='0 0 200 20' width='200' height='20' aria-hidden='true'><path d='M0 6 H200 M0 14 H200' stroke='currentColor' stroke-width='1'/><rect x='90' y='4' width='20' height='12' fill='currentColor'/></svg>"
+    "ornament": "<svg viewBox='0 0 200 20' width='200' height='20' aria-hidden='true'><path d='M0 6 H200 M0 14 H200' stroke='currentColor' stroke-width='1'/><rect x='90' y='4' width='20' height='12' fill='currentColor'/></svg>",
+    "typeScale": 1.0
   },
   "expedition": {
     "name": "Jungle expedition",
     "sceneStyle": "hills",
     "colors": {
-      "bg": "#0f1a12",
-      "bg2": "#1b2e1f",
-      "ink": "#1e2a1a",
-      "inkMuted": "#5d6b52",
-      "paper": "#f1ead6",
-      "paperEdge": "#9a8a5a",
-      "accent": "#b5551a",
-      "accent2": "#7fb15a",
-      "glow": "rgba(127,177,90,0.55)",
-      "topbarInk": "#f1ead6",
-      "sky1": "#d8e7c2",
-      "sky2": "#7fa36b",
-      "land1": "#3d7a3a",
-      "land2": "#255425",
-      "land3": "#143316",
-      "water": "#3b7f80"
+      "sky1": "#7fe0d8",
+      "sky2": "#f7f6c4",
+      "land1": "#8fd257",
+      "land2": "#2f9b48",
+      "land3": "#10633a",
+      "water": "#2ab5a8",
+      "accent": "#f2601f",
+      "accent2": "#ffd12e",
+      "paper": "#fdf6dd",
+      "paperEdge": "#d3bd84",
+      "ink": "#22301c",
+      "inkMuted": "#6b7a5c",
+      "bg": "#102a18",
+      "bg2": "#255036",
+      "glow": "rgba(255,209,46,0.6)",
+      "topbarInk": "#fdf6dd",
+      "cut": "#fffdf4",
+      "ground": "#cbe98f",
+      "lamp": "rgba(240,255,210,0.30)",
+      "vignette": "rgba(8,28,16,0.36)",
+      "paperShadow": "#073826"
     },
     "fonts": {
-      "display": "\"Gill Sans\", \"Trebuchet MS\", Verdana, sans-serif",
-      "body": "\"Iowan Old Style\", Georgia, serif"
+      "display": "\"Cochin\", \"Hoefler Text\", \"Iowan Old Style\", Georgia, serif",
+      "body": "\"Baskerville\", \"Iowan Old Style\", \"Charter\", Georgia, serif"
     },
     "vocabulary": {
       "begin": "Enter the jungle",
@@ -223,32 +252,38 @@
       "codexIntro": "Every marked specimen in the tale is something real.",
       "note": "Field note"
     },
-    "ornament": "<svg viewBox='0 0 200 20' width='200' height='20' aria-hidden='true'><path d='M0 10 H80 M120 10 H200' stroke='currentColor' stroke-width='1.5'/><path d='M100 2 C94 6 92 14 100 18 C108 14 106 6 100 2 Z' fill='currentColor'/></svg>"
+    "ornament": "<svg viewBox='0 0 200 20' width='200' height='20' aria-hidden='true'><path d='M0 10 H80 M120 10 H200' stroke='currentColor' stroke-width='1.5'/><path d='M100 2 C94 6 92 14 100 18 C108 14 106 6 100 2 Z' fill='currentColor'/></svg>",
+    "typeScale": 1.12
   },
   "deepsea": {
     "name": "Deep-sea dive",
     "sceneStyle": "waves",
     "colors": {
-      "bg": "#03101a",
-      "bg2": "#07213a",
-      "ink": "#0c1a26",
-      "inkMuted": "#4d6478",
-      "paper": "#e6f0f5",
-      "paperEdge": "#5aa7c9",
-      "accent": "#e0715a",
-      "accent2": "#5ad1e0",
-      "glow": "rgba(90,209,224,0.55)",
-      "topbarInk": "#e6f0f5",
-      "sky1": "#0b3a5c",
-      "sky2": "#04182a",
-      "land1": "#1d5e7a",
-      "land2": "#123f56",
-      "land3": "#0a2838",
-      "water": "#0d4a6a"
+      "sky1": "#19b4dc",
+      "sky2": "#05436b",
+      "land1": "#35a0c4",
+      "land2": "#1a6a94",
+      "land3": "#0d3f60",
+      "water": "#0f7fae",
+      "accent": "#ff7a4a",
+      "accent2": "#4fe0e8",
+      "paper": "#edf8fc",
+      "paperEdge": "#8bcde4",
+      "ink": "#0f2331",
+      "inkMuted": "#4f7186",
+      "bg": "#03131f",
+      "bg2": "#083050",
+      "glow": "rgba(79,224,232,0.6)",
+      "topbarInk": "#edf8fc",
+      "cut": "#fbfeff",
+      "ground": "#2b9cc6",
+      "lamp": "rgba(170,240,255,0.26)",
+      "vignette": "rgba(2,14,24,0.44)",
+      "paperShadow": "#03243b"
     },
     "fonts": {
-      "display": "\"Optima\", \"Candara\", \"Segoe UI\", sans-serif",
-      "body": "\"Optima\", \"Candara\", \"Segoe UI\", sans-serif"
+      "display": "\"Cochin\", \"Hoefler Text\", \"Iowan Old Style\", Georgia, serif",
+      "body": "\"Baskerville\", \"Iowan Old Style\", \"Charter\", Georgia, serif"
     },
     "vocabulary": {
       "begin": "Dive",
@@ -268,33 +303,39 @@
       "codexIntro": "Every glowing word in the deep is a real fact.",
       "note": "Instrument reading"
     },
-    "ornament": "<svg viewBox='0 0 200 20' width='200' height='20' aria-hidden='true'><path d='M0 10 Q10 2 20 10 T40 10 T60 10 T80 10 M120 10 Q130 2 140 10 T160 10 T180 10 T200 10' stroke='currentColor' stroke-width='1.5' fill='none'/><circle cx='100' cy='10' r='4' fill='currentColor'/></svg>"
+    "ornament": "<svg viewBox='0 0 200 20' width='200' height='20' aria-hidden='true'><path d='M0 10 Q10 2 20 10 T40 10 T60 10 T80 10 M120 10 Q130 2 140 10 T160 10 T180 10 T200 10' stroke='currentColor' stroke-width='1.5' fill='none'/><circle cx='100' cy='10' r='4' fill='currentColor'/></svg>",
+    "typeScale": 1.12
   },
   "storybook": {
     "name": "Children's storybook (bright day)",
     "sceneStyle": "hills",
     "typeScale": 1.28,
     "colors": {
-      "bg": "#2a4a63",
-      "bg2": "#4d7ea8",
-      "ink": "#31302c",
-      "inkMuted": "#6f6c63",
-      "paper": "#fffaf0",
-      "paperEdge": "#f0b64b",
-      "accent": "#d8492b",
-      "accent2": "#f2a81d",
-      "glow": "rgba(242,168,29,0.6)",
-      "topbarInk": "#fffaf0",
-      "sky1": "#8ed0f0",
-      "sky2": "#ffd79a",
-      "land1": "#9fd06a",
-      "land2": "#6bb04a",
-      "land3": "#3f8438",
-      "water": "#57b6d8"
+      "sky1": "#4fc3ea",
+      "sky2": "#d6f1fb",
+      "land1": "#7fd05f",
+      "land2": "#2f9b57",
+      "land3": "#126744",
+      "water": "#1f9fd8",
+      "accent": "#f2601f",
+      "accent2": "#ffbe2e",
+      "paper": "#fdf4dd",
+      "paperEdge": "#e0c99a",
+      "ink": "#26331f",
+      "inkMuted": "#7b8a6f",
+      "bg": "#8a6040",
+      "bg2": "#d8b087",
+      "glow": "rgba(255,190,46,0.7)",
+      "topbarInk": "#fff8e8",
+      "cut": "#fffdf4",
+      "ground": "#d2eda6",
+      "lamp": "rgba(255,243,210,0.38)",
+      "vignette": "rgba(50,28,10,0.3)",
+      "paperShadow": "#0d3a2c"
     },
     "fonts": {
-      "display": "\"Chalkboard SE\", \"Comic Sans MS\", \"Trebuchet MS\", Verdana, sans-serif",
-      "body": "\"Trebuchet MS\", Verdana, \"Avenir Next\", sans-serif"
+      "display": "\"Cochin\", \"Hoefler Text\", \"Iowan Old Style\", Georgia, serif",
+      "body": "\"Baskerville\", \"Iowan Old Style\", \"Charter\", Georgia, serif"
     },
     "vocabulary": {
       "begin": "Let's go!",
@@ -315,6 +356,6 @@
       "note": "The technical bit"
     },
     "ornament": "<svg viewBox='0 0 200 20' width='200' height='20' aria-hidden='true'><path d='M0 10 H76 M124 10 H200' stroke='currentColor' stroke-width='2' stroke-linecap='round'/><circle cx='100' cy='10' r='6' fill='currentColor'/><circle cx='86' cy='10' r='3' fill='currentColor'/><circle cx='114' cy='10' r='3' fill='currentColor'/></svg>",
-    "dropCap": false
+    "dropCap": true
   }
 }

@@ -24,22 +24,36 @@ facts in atmosphere. Fewer words, one clear journey.
 
 ## Workflow
 
+0. **Ask before assuming.** Two things must come from the user, and if either is missing, stop
+   and ask for it before doing anything else — do not pick a plausible file or a theme yourself:
+   - **the source document** (a Markdown file path, or pasted Markdown). If the request names
+     no file, ask which document to turn into a book; if several candidates exist, list them
+     and let the user choose.
+   - **the theme** (`knight`, `space`, `pirate`, `noir`, `expedition`, `deepsea`, `storybook`, or
+     one the user invents), plus who the reader is (a child, a new team member, …), since that
+     decides the register of the art and the prose.
+   Ask both in one message. Only once both are known does the work below start.
 1. **Read the whole source.** Note its headings, the order things happen in, what a reader is
    supposed to be able to do afterwards, and any facts that are easy to get wrong (exact
    commands, names, numbers, rules). Those facts are what the pop-outs exist to protect.
-2. **Fix the theme and the allegory.** Take the theme the user gave; if none, pick one that
-   suits the material and say which you chose. Read the matching section of
+2. **Fix the theme and the allegory.** Use the theme the user gave in step 0 (never a default).
+   Read the matching section of
    `references/themes.md` for its voice, motifs, hero archetype, and stage-naming pattern. Then
    write a short mapping table for yourself: each real concept in the source and its themed
    counterpart (VPN = the Veil, database = the great tame beast, CI pipeline = the proving
    grounds). Keep every mapping stable for the whole book. Readers learn the allegory once; if
    the Veil becomes the Mist in chapter four, the book stops teaching.
-3. **Shape the story.** Read `references/story.md` and fill in its story spine for this book
-   before planning anything: the objective the hero must reach, the "because of that" chain that
-   gets them there, the mistake they make near the end, and the image the book closes on. A
-   document is a list of sections; a book is a chain of consequences, and turning one into the
-   other is the whole job. Do not skip this because the source looks like a simple list — those
-   are the ones that come out as slideshows.
+3. **Shape the story.** Read `references/story.md` and do its five steps, in order, on paper
+   before planning anything: (1) the document's **one argument** as an And-But-Therefore with
+   exactly one *but*; (2) **one protagonist who owns the problem** — wants something concrete
+   on page one, has something real to lose that the document names, decides and acts; (3) the
+   **story shape chosen from the document's type** (a decision doc is *the choice*, a runbook
+   *the watch*, a postmortem *the retelling*, a README *the apprenticeship*…); (4) the **fact
+   ledger** — every heading, number, command and warning assigned a home: narrative, pop-out,
+   recap, scenery, or declared omission; (5) the **spine**, ending first, then five to nine
+   beats joined by *therefore* or *but*. A document is a list of sections; a book is a chain of
+   consequences, and turning one into the other is the whole job. Do not skip this because the
+   source looks like a simple list — those are the ones that come out as tours.
 4. **Plan the stages.** Aim for 5 to 9, one beat each, mapped onto the spine (one stage of
    arrival, three to six of escalating middle, one where it goes wrong, one of payoff). Each
    stage is usually one source section: merge sections too thin to carry a beat, and split ones
@@ -47,8 +61,10 @@ facts in atmosphere. Fewer words, one clear journey.
    need the knowledge, which is usually the document's order. Give each a title in the theme's
    voice and a `source:` heading so the reader can unroll the original section from inside the
    stage.
-5. **Write the content files** in a working folder (`book.json`, `stages/NN-name.md`,
-   `scenes/*.svg`). Formats are below.
+5. **Write the content files** in a working folder (`book.json`, `stages/NN-name.md`) and a
+   scene script (`draw.py`) that uses `scripts/scene_engine.py` to render `scenes/*.svg`. Run it
+   and fix every hero-box warning it prints. Formats are below; the engine is in
+   `references/scenes.md`.
 6. **Cut, then run the checklist.** Reread each stage against "Writing the tale" and take out
    roughly a third of the words; first drafts are almost always twice as long as they need to
    be, and every sentence you delete makes the marked words easier to see. Then walk the
@@ -118,17 +134,23 @@ python3 <skill-dir>/scripts/build_book.py --content work/book.json --out <name>.
 
 ## Writing the tale
 
-**Second person, present tense, one scene and one beat per stage.** "You" are the hero. A stage
-is not a description of a place; it is something happening in one. You arrive, you meet a
-person or a problem, you do one thing, and you leave changed or better equipped. If a stage
-boils down to "you are somewhere and it looks atmospheric", it has no beat yet: find one in the
-source section — the thing the reader must do, the mistake they must not make, the decision
-that was taken — and build the scene around that.
+**One protagonist, one scene and one beat per stage.** Point of view is chosen by the reader
+named in step 0 and held from cover to recap: a **named hero in third person, past tense** for
+a child or anyone reading for the story (the register of every fairy-tale pop-up); **second
+person, present tense** for a practitioner who will do these things tomorrow. A stage is not a
+description of a place; it is something happening in one. The hero arrives, meets a person or a
+problem, *does one thing with what they learn*, and leaves with different options than they
+came with. If a stage boils down to "the hero is somewhere and someone explains a section", it
+is a tour stop, not a beat: find the beat in the source — the thing that must be done, the
+mistake that must not be made, the decision that was taken — and build the scene around the
+hero doing it.
 
 **Hold the shape you planned.** `references/story.md` is the authority on structure: the
-objective stated up front, stages joined by "therefore" and "but" rather than "and then", the
-middle escalating, a real mistake near the end, a refrain or carried object, and every stage's
-last sentence pulling toward the next. Seven unrelated vignettes in matching costumes is a
+document's one argument stated up front as the hero's want and stake, stages joined by
+"therefore" and "but" rather than "and then", mentors who ask questions or set constraints
+while the hero acts, the middle escalating, a real mistake from the source near the end, a
+refrain or carried object, the ending the hero earns alone, and every stage's last sentence
+pulling toward the next. Seven unrelated vignettes in matching costumes is a
 slideshow, not a book, and it is the failure this skill falls into by default.
 
 **60 to 120 words of narrative per stage, and that is a budget rather than a target.** Two
@@ -179,19 +201,29 @@ rules, tables) rather than retyping it.
 
 ## Scenes
 
-Read `references/scenes.md` before drawing. In brief: one `<svg viewBox="0 0 1600 900"
-preserveAspectRatio="xMidYMid slice">` per scene, built from a few layers wrapped in
-`<g data-depth="0.05">` for parallax, colored with the theme's CSS variables (`style="fill:var(--land-2)"`)
-so any palette works, with the subject in the left 55% because the text panel sits on the right
-on wide screens. Motion is opt-in via classes on child groups (`drift`, `float`, `twinkle`,
-`sway`, `pulse`, `flicker`, `spin`). Keep each scene under roughly 120 lines; suggestion beats
-detail at this size.
+**Every stage is an open pop-up book spread**, in the style of the Robert Frederick fairy-tale
+pop-up books: flat, matte storybook illustration printed on die-cut card, standing in layered
+rows on the page, each flat with a thin white edge around its whole silhouette and a soft shadow
+onto what is behind it. The engine draws the book; your `draw.py` (using
+`scripts/scene_engine.py`) describes the flats. Read `references/scenes.md` first — it is the
+engine's manual and describes the look precisely.
 
-Draw the cover, the ending, and every stage you can. A stage without a `scene:` gets a
-generated themed backdrop (hills, stars, waves, or skyline depending on the theme), which looks
-fine but says nothing about that stage. If you must ration effort, hand-draw the cover and the
-stages whose scenes carry meaning (the hall of banners, the proving grounds), and let quiet
-transitional stages use the backdrop.
+The rules that decide whether a spread looks like those books:
+
+- **One hero on its own card**, half to two thirds of the leaf, with a bush row behind and a
+  bush row in front. Supporting context small on a far layer.
+- **Flat colour with a darker lower band, and drawn texture marks** — leaf dashes, grass ticks,
+  stone blocks, scale arcs. No gradients, glow or shading on characters.
+- **Simple, appealing characters**: rounded, 6–10 shapes, dot eyes with a white, a rosy cheek,
+  a small mouth. Villains are sly, not scary. Minimal, but unmistakably the thing.
+- **A real setting made of a few big shapes** on the back panel — trees, hills, a wall, curtains.
+- **One colour family per spread plus one warm accent.**
+
+Never fold a character; never put an outline on a piece inside a card; never animate a lit
+piece. Look at the render before handing over.
+
+Draw the cover, the ending, and every stage you can. A stage without a `scene:` gets a generated
+backdrop in the same style — it simply has no hero.
 
 ## Handing over
 
