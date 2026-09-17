@@ -425,6 +425,23 @@ def theme_css(theme: dict) -> str:
 
 
 # --------------------------------------------------------------------------- build
+_SECOND_PERSON = re.compile(r"\b(you|your|yours|yourself|yourselves|you're|you'll|you've|you'd)\b", re.I)
+# straight and curly double quotes: dialogue is the one place second person belongs
+_QUOTED = re.compile(r"\"[^\"]*\"|\u201c[^\u201d]*\u201d")
+
+
+def second_person(html: str) -> list[str]:
+    """Second-person pronouns in narration, ignoring anything inside quotation marks."""
+    text = re.sub(r"<[^>]+>", " ", html)
+    text = _QUOTED.sub(" ", text)
+    seen, out = set(), []
+    for m in _SECOND_PERSON.finditer(text):
+        w = m.group(0).lower()
+        if w not in seen:
+            seen.add(w); out.append(w)
+    return out
+
+
 def build(content_path: Path, out_path: Path, source_override: Path | None, quiet: bool) -> int:
     base = content_path.parent
     book = json.loads(content_path.read_text(encoding="utf-8"))
@@ -475,6 +492,15 @@ def build(content_path: Path, out_path: Path, source_override: Path | None, quie
         elif words > max_words:
             warn(f"stage '{stage['title']}' narrative is {words} words, over {max_words}; cut it back — long sections belong in pop-outs and the original scroll, not the prose")
 
+        if not (stage.get("note") or "").strip():
+            warn(f"stage '{stage['title']}' has no '## note'; every stage needs the technical bit — "
+                 f"the plain-voice facts under the tale")
+
+        pronouns = second_person(stage["narrative"])
+        if pronouns:
+            warn(f"stage '{stage['title']}' narrates in the second person ({', '.join(pronouns)}); "
+                 f"the tale follows a named hero — 'you' belongs only inside dialogue")
+
         defined = {p["id"] for p in stage.get("popouts", [])} | {p["id"] for p in book.get("popouts", [])}
         for pid in sorted(used_ids - defined):
             warn(f"stage '{stage['title']}' marks [[...|{pid}]] but no pop-out with id '{pid}' is defined")
@@ -522,6 +548,11 @@ def build(content_path: Path, out_path: Path, source_override: Path | None, quie
     book["stages"] = stages
     for key in ("cover", "ending"):
         sec = book.get(key) or {}
+        for field in ("blurb",):
+            pronouns = second_person(sec.get(field) or "")
+            if pronouns:
+                warn(f"{key} {field} is written at the reader ({', '.join(pronouns)}); "
+                     f"write about the hero instead")
         sec["scene"] = load_field(sec.get("scene"), base)
         if sec.get("scene") and not re.match(r"\s*<svg", sec["scene"], re.IGNORECASE):
             warn(f"{key} scene does not start with <svg; falling back to the generated backdrop")

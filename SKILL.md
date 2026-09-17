@@ -103,8 +103,12 @@ chapter: Chapter I
 source: Local Development Setup
 scene: scenes/01-gates.svg
 ---
-Mist clings to the road as you approach the keep. A guard bars the way: none may
-enter who have not passed through [[the Veil|vpn]] ...
+Mist clung to the road as Edda came up to the keep. A guard barred the way: none
+might enter who had not passed through [[the Veil|vpn]] ...
+
+## note
+The repository is private, so everything runs behind the company VPN. Connect
+before anything else: the internal package registry is only reachable from inside.
 
 ## popout: vpn
 title: VPN
@@ -115,6 +119,12 @@ internal package registry and services are only reachable from inside the networ
 Rules the build script enforces or warns about:
 
 - Every prose field is Markdown. Every scene is inline SVG, given as a path to a `.svg` file.
+- **Every stage carries a `## note` — the technical bit.** It sits under the tale in plain
+  voice, with no allegory at all, and states what the stage's section of the document actually
+  says: the numbers, the names, the commands, the rule. The tale is how the reader remembers it;
+  the note is how they check it. A stage without one is an allegory the reader cannot cash in,
+  and the build script warns about it. Two or three sentences, bold the figures that matter,
+  and quote commands verbatim.
 - `[[display text|id]]` marks a pop-out link; `[[docker]]` uses the text as the id. Each id needs
   a `## popout: id` block in the same stage (or a book-level `popouts` array in `book.json`).
 - `source:` in the frontmatter names a heading in the source document. The script extracts
@@ -134,10 +144,12 @@ python3 <skill-dir>/scripts/build_book.py --content work/book.json --out <name>.
 
 ## Writing the tale
 
-**One protagonist, one scene and one beat per stage.** Point of view is chosen by the reader
-named in step 0 and held from cover to recap: a **named hero in third person, past tense** for
-a child or anyone reading for the story (the register of every fairy-tale pop-up); **second
-person, present tense** for a practitioner who will do these things tomorrow. A stage is not a
+**One named protagonist, in third person, past tense — never "you".** The hero has a name on
+the first page and keeps it to the recap; the narration follows them the way every fairy-tale
+pop-up follows Red Riding Hood. Second person belongs only inside quotation marks, where one
+character speaks to another. Write *about* the hero, never *at* the reader — on the cover and in
+the ending too. `references/story.md` explains why, and the build script warns when narration
+outside dialogue says "you". A stage is not a
 description of a place; it is something happening in one. The hero arrives, meets a person or a
 problem, *does one thing with what they learn*, and leaves with different options than they
 came with. If a stage boils down to "the hero is somewhere and someone explains a section", it
@@ -167,9 +179,9 @@ about how the light falls, and any preamble before the hero actually does someth
 pop-out: they should still be able to say what happened and roughly what it means. The marked
 phrase names the thing in theme; the sentence around it carries the real meaning.
 
-> "The elder speaks the word of binding over your blade." — teaches nothing; the reader cannot
+> "The elder spoke the word of binding over the blade." — teaches nothing; the reader cannot
 > tell whether this is a config file, a login, or scenery.
-> "Nothing you forge will hold until the elder writes your name in [[the ledger|env-file]]." —
+> "Nothing Edda forged would hold until the elder wrote her name in [[the ledger|env-file]]." —
 > same costume, but the reader now knows there is a file that must list them before anything
 > works. The pop-out then supplies the name of the file and the exact line.
 

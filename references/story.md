@@ -133,6 +133,10 @@ command, every rule, every warning in the source, one per line. Then assign each
   values; the narrative carries the *why*. A number belongs in a pop-out even when the
   narrative alludes to it ("thirty-seven parts full" in the tale; `11.12 GiB of 30 GiB (37%)`
   behind it).
+- **note** — the fact belongs in the stage's **technical bit**: the plain-voice box under the
+  tale that says, without allegory, what this stage's section of the document actually states.
+  Every stage has one. Numbers, names, commands and rules land here even when a pop-out also
+  carries them, because the note is what a reader skims when they come back to check something.
 - **recap** — the fact is a takeaway the reader must leave with.
 - **scenery** — a flat list with no causal weight (seven naming conventions, six action
   items). It gets one scene as a place — a hall of banners, a wall of case files — and its
@@ -244,17 +248,33 @@ from mapping surface features instead of structure. So:
 
 ## Voice and point of view
 
-Choose by reader, and say which you chose.
+**Always third person, past tense, with a named protagonist.** This is the register of every
+fairy-tale pop-up on the shelf — *"Little Red Riding Hood knew she wasn't to talk to strangers
+but couldn't help telling the wolf all about her sick grandmother"* — and it is not optional
+here. Give the hero a name on the first page and use it.
 
-- **A child, or anyone reading for the story**: third person, past tense, a **named
-  protagonist** — the register of every fairy-tale pop-up on the shelf ("Little Red Riding Hood
-  knew she wasn't to talk to strangers but couldn't help telling the wolf…"). Named heroes can
-  be drawn, followed, and rooted for; "you" cannot appear in the picture.
-- **A practitioner learning to do the job**: second person, present tense — "you are the
-  hero" — because the reader will literally do these things tomorrow, and the book is a
-  rehearsal.
+Never narrate in the second person. "You approach the keep" fails for three reasons that all
+matter to this skill:
 
-Either way: one scene per stage, one beat per scene, and the same voice from cover to recap.
+1. **"You" cannot be drawn.** Every scene has a hero standing on the page. A named character can
+   be shown arriving, deciding and leaving changed; a second-person reader cannot appear in the
+   picture, so the art and the prose stop describing the same thing.
+2. **"You" cannot be wrong.** The turn depends on the hero making the mistake the document warns
+   about. Telling a reader *they* got it wrong is an accusation; watching Adam get it wrong is a
+   story, and it is the reader who draws the lesson.
+3. **"You" flattens the cast.** Mentors ask questions and the hero answers. With a second-person
+   hero there is no one to answer, and the scene collapses back into a lecture.
+
+The one place second person belongs is **inside quotation marks**, where one character addresses
+another: *"How many barns have you?" asked the captain.* That is correct and natural — dialogue
+is where the reader hears the rule spoken.
+
+The same applies to the cover blurb, the ending and the recap: write *about* the hero, never
+*at* the reader. "Weigh anchor: it is three days' sail" becomes "The captain has the bearings,
+and it is three days' sail." The build script warns when narration outside dialogue uses
+second-person pronouns.
+
+One scene per stage, one beat per scene, the same voice from cover to recap.
 
 ## A spread, sentence by sentence
 
@@ -364,4 +384,6 @@ Before building, every line is true:
 - [ ] Point of view chosen by reader and held throughout.
 - [ ] Each stage: 60–120 words, place-and-motion first, one exchange, one act, last line pulls
       forward, reads aloud cleanly.
+- [ ] Every stage has a `## note` — the technical bit — in plain voice, with the section's real
+      numbers, names and commands.
 - [ ] The recap states the *therefore* in plain words, one line per capability.

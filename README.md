@@ -15,12 +15,13 @@ thing behind the allegory (the actual command, rule, decision or number from the
 Output is **one `.html` file** that works offline: no build step for the reader, no network
 requests, no dependencies.
 
-The book is written short and shaped as a story — one protagonist who owns the problem, the
-document's argument as the plot, stages that follow from one another, the document's own
-warned-about mistake before the end, and a payoff the hero earns — because a wall of themed
-prose teaches nothing. Narrative runs 60–120 words per stage; the detail lives in the pop-outs
-and the original document, one click away. Claude asks for the source document and the theme
-if you don't give them.
+The book is written short and shaped as a story — one **named** protagonist who owns the
+problem, told in the third person like any fairy tale, the document's argument as the plot,
+stages that follow from one another, the document's own warned-about mistake before the end,
+and a payoff the hero earns. Narrative runs 60–120 words per stage; under each stage sits
+**the technical bit**, a plain-voice box with that section's real numbers and commands, and the
+rest of the detail lives in the pop-outs and the original document, one click away. Claude asks
+for the source document and the theme if you don't give them.
 
 Built-in themes: `knight`, `space`, `pirate`, `noir`, `expedition`, `deepsea`, `storybook` — or
 describe your own and Claude will extend a preset.

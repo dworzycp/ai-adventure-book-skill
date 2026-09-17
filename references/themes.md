@@ -53,8 +53,8 @@ the oath. Config = the ledger. Deployment = riding out from the gate.
 nominal." Sentences trend short. Avoid jargon salad; one nice technical-sounding term per
 paragraph is plenty.
 
-**Hero.** A new crew member aboard a survey ship, shadowing the veteran first officer. The
-ship's AI, the engineer, and mission control talk to you.
+**Hero.** A named new crew member aboard a survey ship, shadowing the veteran first officer.
+The ship's AI, the engineer, and mission control talk to them.
 
 **Places.** Docking bay, bridge, engine room, cargo hold, the observation deck, a derelict
 station, a nebula, a jump gate, the survey planet's surface, a debris field.
@@ -93,8 +93,8 @@ ship's articles, signed by every hand.
 
 ## noir
 
-**Voice.** First-person-adjacent hardboiled narration addressed to "you": clipped, wry,
-rain-soaked. Concrete details (a flickering sign, a cold cup of coffee). Metaphors sparse and
+**Voice.** Hardboiled narration about a named detective: clipped, wry, rain-soaked. The register
+is Chandler in the third person — never addressed to the reader. Concrete details (a flickering sign, a cold cup of coffee). Metaphors sparse and
 sharp. Sentences short. No pastiche of specific films.
 
 **Hero.** A detective who just got handed the case. A world-weary partner, a records clerk,
@@ -136,8 +136,8 @@ checking the rope before the crossing. A monorepo = the whole valley seen from t
 **Voice.** Hushed, slow, luminous. Longer sentences than the other themes, few exclamation
 marks. Pressure, dark, and light are recurring images.
 
-**Hero.** A pilot on their first deep dive in a two-person submersible, with a veteran
-marine biologist beside you and the surface ship on the comm.
+**Hero.** A named pilot on their first deep dive in a two-person submersible, with a veteran
+marine biologist beside them and the surface ship on the comm.
 
 **Places.** The surface, the twilight zone, the thermocline, a wreck, a trench wall, a
 hydrothermal vent, the abyssal plain, the ascent.
@@ -181,5 +181,5 @@ makes the page feel like a book rather than a slideshow.
 - **Commands** are incantations, orders, or checklists. Never paraphrase a command inside a
   pop-out; quote it in backticks exactly as the source has it.
 - **Incidents and postmortems** are a case, a storm, or a hull breach. The timeline is the
-  journey; the root cause is what you find at the end; the action items are the vows made on
+  journey; the root cause is what the hero finds at the end; the action items are the vows made on
   the way home.
