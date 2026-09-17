@@ -2,9 +2,9 @@
 
 Turn any Markdown document into a self-contained interactive HTML **adventure book**.
 
-![The cover of an adventure book: a paper-cut princess waving from the window of a stone tower with a coral roof, her long braid hanging past climbing roses, green hills and trees behind](docs/cover.png)
+![The cover of an adventure book: a paper-cut pirate galleon under three sails on a rolling blue sea, a skull pennant at the masthead, a palm island on the horizon](docs/cover.png)
 
-<sup>A cover in a custom theme extending `knight`. Every scene is generated SVG: paper-cut flats standing on the page, with the words printed on the facing leaf.</sup>
+<sup>A cover in the `pirate` theme. Every scene is generated SVG: paper-cut flats standing on the page, with the words printed on the facing leaf.</sup>
 
 A README, onboarding guide, AGENTS.md, ADR, spec, runbook, tutorial, postmortem — or a plain
 old story — becomes a themed journey the reader travels stage by stage. Every page is an open
