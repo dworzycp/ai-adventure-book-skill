@@ -43,8 +43,8 @@ Pt = tuple[float, float]
 
 # --------------------------------------------------------------------------- colour
 
-WARM = (255, 246, 224)   # highlights go toward this, never toward pure white
-COOL = (34, 33, 63)      # shadows go toward this, never toward black
+WARM = (255, 246, 224)   # highlights go towards this, never towards pure white
+COOL = (34, 33, 63)      # shadows go towards this, never towards black
 
 
 def _rgb(c: str) -> tuple[int, int, int]:
@@ -262,7 +262,7 @@ def tube(pts: Sequence[Pt], r0: float, r1: float, tension: float = 1.0, cap: boo
 
 def fan(outline: Sequence[Pt], apex: Pt) -> list[list[Pt]]:
     """Triangles from one apex to each edge of an outline: a folded fan. Put the apex off-centre,
-    toward the light, and one side of the form lights up while the other falls dark."""
+    towards the light, and one side of the form lights up while the other falls dark."""
     n = len(outline)
     return [[apex, outline[i], outline[(i + 1) % n]] for i in range(n)]
 
@@ -389,7 +389,7 @@ def _tier_for(shape: Shape) -> str:
 
 @dataclass
 class Light:
-    """One key light for the whole spread. `dir` points from the subject toward the light."""
+    """One key light for the whole spread. `dir` points from the subject towards the light."""
     dir: Pt = (-0.6, -0.8)
     key: str = "#fff1d6"      # warm
     bounce: str = "#7fa8ff"   # cool, from the opposite side
@@ -506,7 +506,7 @@ class Scene:
         # a shadow with no lighting: origami and other flat pieces
         self.defs.append(f'<filter id="{sid}-shadow" x="-25%" y="-25%" width="150%" height="160%">'
                          f'<feDropShadow dx="{_f(sox)}" dy="{_f(soy)}" stdDeviation="7" flood-color="{L.shadow}" flood-opacity=".4"/></filter>')
-        # the two faces of a V-fold: one brightened toward the key, one dimmed and cooled
+        # the two faces of a V-fold: one brightened towards the key, one dimmed and cooled
         kr, kg, kb = _rgb(L.key)
         self.defs.append(f'<filter id="{sid}-face-lit" color-interpolation-filters="sRGB"><feComponentTransfer>'
                          f'<feFuncR type="linear" slope="1.12" intercept="{_f(kr / 255 * .05)}"/><feFuncG type="linear" slope="1.1" intercept="{_f(kg / 255 * .05)}"/>'
@@ -566,7 +566,7 @@ class Scene:
         d = "M-200 900 L60 648 Q700 612 1700 648 L1900 900 Z"
         seam = self.linear([(0, self.light.shadow, .42), (.2, self.light.shadow, 0)])
         L = Layer(self, depth=.12, rise=None, cast=None)
-        # light falls across the page too: brighter toward the key light
+        # light falls across the page too: brighter towards the key light
         lx = .5 + self.light.dir[0] * .3
         pg = self.radial([(0, tint(ground, .22), None), (1, shade(ground, .10), None)], cx=lx, cy=.15, r=.9)
         L.raw(f'<path d="{d}" fill="url(#{pg})"/>')
@@ -976,7 +976,7 @@ class Card:
         T, Ph = math.radians(self.tilt if self.tilt else (16 if self.fold else 0)), math.radians(self.open)
         sT, cT, sP, cP = math.sin(T), math.cos(T), math.sin(Ph), math.cos(Ph)
         lx = sc.light.dir[0]
-        # where a unit of height lands on the page as shadow: away from the light, toward the reader
+        # where a unit of height lands on the page as shadow: away from the light, towards the reader
         sx, sy = -lx * .55 * self.shadow_len, .32 * self.shadow_len
         if sc.finish == "storybook":
             sx, sy = .10, .12                 # a photographed pop-up: short, soft, straight down

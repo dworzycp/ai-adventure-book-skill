@@ -343,7 +343,7 @@ real: the surveyor's "the sacks keep arriving".
 **The spine.** *Once upon a time the village kept three barns with a ten-bushel bin each.
 Every day the sacks came in and the bins were a third full, which sounded fine. But one day the
 surveyor showed Adam the line on the wall you may never fill past, and sent him up the hill to
-decide what to do. Because of that he asked the builders to make a bin bigger — and learned it
+decide what to do. Because of that he asked the builders to make a bin bigger — and learnt it
 meant raising a whole second row and carrying every sack across. Because of that he went to
 hire keepers, who could have let the builders knock a wall out instead — and the captain showed
 him what three keepers cost against what all the grain is worth, and that keepers earn their

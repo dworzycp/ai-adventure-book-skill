@@ -162,7 +162,7 @@ document's one argument stated up front as the hero's want and stake, stages joi
 "therefore" and "but" rather than "and then", mentors who ask questions or set constraints
 while the hero acts, the middle escalating, a real mistake from the source near the end, a
 refrain or carried object, the ending the hero earns alone, and every stage's last sentence
-pulling toward the next. Seven unrelated vignettes in matching costumes is a
+pulling towards the next. Seven unrelated vignettes in matching costumes is a
 slideshow, not a book, and it is the failure this skill falls into by default.
 
 **60 to 120 words of narrative per stage, and that is a budget rather than a target.** Two

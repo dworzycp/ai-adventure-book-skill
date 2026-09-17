@@ -47,7 +47,7 @@ button:focus-visible, a:focus-visible, [tabindex]:focus-visible { outline: 3px s
 .page.active { opacity: 1; visibility: visible; pointer-events: auto; transition: opacity .6s ease, visibility 0s; }
 /* the art spans the whole spread's width but is clipped to the left leaf; the right leaf is paper.
    Parallax moves .art and the rise animates the <svg>: both are transforms outside the SVG, so
-   its filters rasterize once and the compositor does the rest. Never animate inside the SVG. */
+   its filters rasterise once and the compositor does the rest. Never animate inside the SVG. */
 .scene { position: absolute; inset: 0 50% 0 0; overflow: hidden; z-index: 1; }
 .scene .art { position: absolute; inset: 0; will-change: transform; transition: transform .35s ease-out; }
 .scene svg { width: 200%; height: 100%; display: block; will-change: transform; }
@@ -331,7 +331,7 @@ details.source-box .source { padding: 4px 14px 14px; font-size: .92rem; }
   var THEME = BOOK.theme || {};
   var V = Object.assign({
     begin: 'Begin', next: 'Next', back: 'Back', finish: 'Finish', restart: 'Start again',
-    scroll: 'Read the original', codex: 'Codex', map: 'Map', chapter: 'Chapter', recap: 'What you learned',
+    scroll: 'Read the original', codex: 'Codex', map: 'Map', chapter: 'Chapter', recap: 'What was learnt',
     source: 'From the original', behind: 'Behind the tale', close: 'Close', stageOf: 'Stage {n} of {total}', note: 'The technical bit',
     codexIntro: 'Every marked word in the tale hides something real.'
   }, THEME.vocabulary || {});
